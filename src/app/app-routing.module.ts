@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
+import { HomeSummaryComponent } from './components/home-summary/home-summary.component';
 import { MedicalProviderListComponent } from './components/medical-provider-list/medical-provider-list.component';
 import { MedicalProviderFormComponent } from './components/medical-provider-form/medical-provider-form.component';
 import { MedicListComponent } from './components/medic-list/medic-list.component';
@@ -12,6 +13,7 @@ import { PrescriptionFormComponent } from './components/prescription-form/prescr
 
 const routes: Routes = [
   { path: '', component: HomeComponent, children: [
+    { path: 'home', component: HomeSummaryComponent },
     { path: 'medical-providers', component: MedicalProviderListComponent },
     { path: 'medical-providers/new', component: MedicalProviderFormComponent },
     { path: 'medical-providers/edit/:id', component: MedicalProviderFormComponent },
@@ -24,7 +26,7 @@ const routes: Routes = [
     { path: 'prescriptions', component: PrescriptionListComponent },
     { path: 'prescriptions/new', component: PrescriptionFormComponent },
     { path: 'prescriptions/edit/:id', component: PrescriptionFormComponent },
-    { path: '', redirectTo: 'medical-providers', pathMatch: 'full' } // Redirigir a una ruta predeterminada dentro del HomeComponent
+    { path: '', redirectTo: 'home', pathMatch: 'full' } // Redirigir a la ruta de resumen dentro del HomeComponent
   ]},
   { path: '**', redirectTo: '' } // Redirigir cualquier otra ruta a HomeComponent
 ];

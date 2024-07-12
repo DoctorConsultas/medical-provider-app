@@ -1,32 +1,30 @@
-.example-container {
+/* src/app/components/home/home.component.css */
+
+.custom-sidenav-container {
   height: 100vh;
   display: flex;
 }
 
-.example-sidenav {
+.custom-sidenav {
   width: 250px;
-  background: #f4f4f4;
+  background: #004080; /* Fondo azul */
+  display: flex;
+  flex-direction: column;
 }
 
-.mat-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
-
-.mat-toolbar-row {
+.custom-toolbar {
+  background: #004080; /* Fondo azul del toolbar en el sidenav */
+  display: flex;
   justify-content: center;
+  align-items: center;
 }
 
-.mat-toolbar.custom-toolbar {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-  background: #af4040; /* Fondo gris */
+.logo {
+  width: 100px; /* Ajusta el tamaño según tus necesidades */
 }
 
 .toolbar-message {
-  color: rgb(247, 247, 250); /* Color del mensaje en azul */
+  color: white; /* Color del mensaje en blanco */
 }
 
 .menu-item {
@@ -35,22 +33,32 @@
   padding: 20px;
   margin-bottom: 10px;
   text-align: center;
-  background: #1b1a1a; /* Fondo menu */
+  background: #004080; /* Fondo azul */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   transition: background 0.3s, box-shadow 0.3s;
   text-decoration: none;
-  color: black; /* Color de texto en negro */
+  color: white; /* Color de texto en blanco */
 }
 
 .menu-item:hover {
-  background: #af4040; /* Fondo gris oscuro al pasar el ratón */
+  background: #003366; /* Fondo azul oscuro al pasar el ratón */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .menu-item.active {
-  background: #af4040; /* Fondo gris oscuro cuando está activo */
-  color: black; /* Color de texto en negro cuando está activo */
+  background: #003366; /* Fondo azul oscuro cuando está activo */
+  color: white; /* Color de texto en blanco cuando está activo */
+}
+
+.custom-content {
+  background: white; /* Fondo blanco del área de contenido */
+  flex-grow: 1;
+}
+
+.custom-content-toolbar {
+  background: #004080; /* Fondo azul del toolbar en el contenido */
+  color: white; /* Color del mensaje en blanco */
 }
 
 .content {

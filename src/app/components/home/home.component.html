@@ -1,19 +1,23 @@
-<mat-sidenav-container class="example-container">
-  <mat-sidenav mode="side" opened class="example-sidenav">
-    <mat-toolbar>Menú Principal</mat-toolbar>
+<!-- src/app/components/home/home.component.html -->
+<mat-sidenav-container class="custom-sidenav-container">
+  <mat-sidenav mode="side" opened class="custom-sidenav">
+    <mat-toolbar class="custom-toolbar">
+      <img src="assets/logo.png" alt="Logo" class="logo">
+    </mat-toolbar>
     <mat-nav-list>
+      <a mat-list-item routerLink="/home" routerLinkActive="active" class="menu-item">Dashboard</a>
       <a mat-list-item routerLink="/medical-providers" routerLinkActive="active" class="menu-item">Proveedores Médicos</a>
       <a mat-list-item routerLink="/medics" routerLinkActive="active" class="menu-item">Médicos</a>
       <a mat-list-item routerLink="/patients" routerLinkActive="active" class="menu-item">Pacientes</a>
       <a mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Prescripciones</a>
     </mat-nav-list>
   </mat-sidenav>
-  <mat-sidenav-content>
-    <mat-toolbar class="custom-toolbar">
-      <span class="toolbar-message">Bienvenido a la Aplicación Médica</span>
+  <mat-sidenav-content class="custom-content">
+    <mat-toolbar class="custom-content-toolbar">
+      <span class="toolbar-message">Portal Proveedor de Salud</span>
     </mat-toolbar>
     <div class="content">
-      <router-outlet></router-outlet> <!-- Aquí se renderizan los componentes seleccionados -->
+      <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

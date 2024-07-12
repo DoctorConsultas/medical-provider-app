@@ -1,3 +1,4 @@
+// src/app/app.module.ts
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -21,6 +22,9 @@ import { PrescriptionListComponent } from './components/prescription-list/prescr
 import { PrescriptionFormComponent } from './components/prescription-form/prescription-form.component';
 
 import { HttpClientModule } from '@angular/common/http';
+import { HomeSummaryComponent } from './components/home-summary/home-summary.component';
+
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -33,7 +37,8 @@ import { HttpClientModule } from '@angular/common/http';
     PatientListComponent,
     PatientFormComponent,
     PrescriptionListComponent,
-    PrescriptionFormComponent
+    PrescriptionFormComponent,
+    HomeSummaryComponent
   ],
   imports: [
     BrowserModule,
@@ -45,7 +50,8 @@ import { HttpClientModule } from '@angular/common/http';
     MatSidenavModule,
     MatListModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

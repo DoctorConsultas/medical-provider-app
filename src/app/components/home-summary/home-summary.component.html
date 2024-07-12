@@ -1,0 +1,71 @@
+<!-- src/app/components/home-summary/home-summary.component.html -->
+<div class="summary-container">
+    <h2>Resumen de Información</h2>
+  
+    <div class="summary-section">
+      <h3>Productos más Prescriptos</h3>
+      <ul>
+        <li *ngFor="let item of mostPrescribedMedications">
+          {{ item.product }} - {{ item.count }} veces
+        </li>
+      </ul>
+  
+      <ngx-charts-bar-vertical
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="single"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="xAxisLabel"
+        [yAxisLabel]="yAxisLabel"
+        (select)="onSelect($event)">
+      </ngx-charts-bar-vertical>
+    </div>
+  
+    <div class="summary-section">
+      <h3>Médicos que Generan Más Prescripciones</h3>
+      <ul>
+        <li *ngFor="let item of topPrescribingMedics">
+          Médico ID {{ item.medicId }} - {{ item.count }} prescripciones
+        </li>
+      </ul>
+  
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="multi"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'Año'"
+        [yAxisLabel]="'Prescripciones'"
+        (select)="onSelect($event)">
+      </ngx-charts-line-chart>
+    </div>
+  
+    <div class="summary-section">
+      <h3>Cantidad de Pacientes con Prescripción en la Última Semana</h3>
+      <ngx-charts-line-chart
+        [view]="view"
+        [scheme]="colorScheme"
+        [results]="dailyPrescriptions"
+        [gradient]="gradient"
+        [xAxis]="showXAxis"
+        [yAxis]="showYAxis"
+        [legend]="showLegend"
+        [showXAxisLabel]="showXAxisLabel"
+        [showYAxisLabel]="showYAxisLabel"
+        [xAxisLabel]="'Fecha'"
+        [yAxisLabel]="'Cantidad de Pacientes'"
+        (select)="onSelect($event)">
+      </ngx-charts-line-chart>
+    </div>
+  </div>
+  
