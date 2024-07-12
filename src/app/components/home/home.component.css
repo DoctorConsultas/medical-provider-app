@@ -1,0 +1,59 @@
+.example-container {
+  height: 100vh;
+  display: flex;
+}
+
+.example-sidenav {
+  width: 250px;
+  background: #f4f4f4;
+}
+
+.mat-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.mat-toolbar-row {
+  justify-content: center;
+}
+
+.mat-toolbar.custom-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  background: #af4040; /* Fondo gris */
+}
+
+.toolbar-message {
+  color: rgb(247, 247, 250); /* Color del mensaje en azul */
+}
+
+.menu-item {
+  display: block;
+  width: 100%;
+  padding: 20px;
+  margin-bottom: 10px;
+  text-align: center;
+  background: #1b1a1a; /* Fondo menu */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+  transition: background 0.3s, box-shadow 0.3s;
+  text-decoration: none;
+  color: black; /* Color de texto en negro */
+}
+
+.menu-item:hover {
+  background: #af4040; /* Fondo gris oscuro al pasar el ratón */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.menu-item.active {
+  background: #af4040; /* Fondo gris oscuro cuando está activo */
+  color: black; /* Color de texto en negro cuando está activo */
+}
+
+.content {
+  padding: 16px;
+  flex-grow: 1;
+}

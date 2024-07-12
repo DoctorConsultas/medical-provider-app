@@ -1,0 +1,27 @@
+<div class="container">
+    <h2>{{ isEdit ? 'Edit' : 'New' }} Medical Provider</h2>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="provider.name" name="name" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Email" [(ngModel)]="provider.email" name="email" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Phone" [(ngModel)]="provider.phone" name="phone" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Password" [(ngModel)]="provider.password" name="password" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Business Name" [(ngModel)]="provider.businessName" name="businessName" required>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit">{{ isEdit ? 'Update' : 'Create' }}</button>
+    </form>
+  </div>
+  

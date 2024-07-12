@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>{{ isEdit ? 'Edit' : 'New' }} Prescription</h2>
+    <form (ngSubmit)="onSubmit()">
+      <mat-form-field>
+        <input matInput placeholder="Code" [(ngModel)]="prescription.code" name="code" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Status" [(ngModel)]="prescription.status" name="status" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Medic ID" [(ngModel)]="prescription.medicId" name="medicId" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Patient ID" [(ngModel)]="prescription.patientId" name="patientId" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Product Type" [(ngModel)]="prescription.productType" name="productType" required>
+      </mat-form-field>
+  
+      <mat-form-field>
+        <input matInput placeholder="Product ID" [(ngModel)]="prescription.productId" name="productId" required>
+      </mat-form-field>
+  
+      <button mat-raised-button color="primary" type="submit">{{ isEdit ? 'Update' : 'Create' }}</button>
+    </form>
+  </div>
+  

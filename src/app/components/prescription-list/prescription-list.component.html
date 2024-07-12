@@ -1,0 +1,26 @@
+<div class="container">
+    <h2>Prescriptions</h2>
+    <table mat-table [dataSource]="prescriptions" class="mat-elevation-z8">
+      <ng-container matColumnDef="code">
+        <th mat-header-cell *matHeaderCellDef> Code </th>
+        <td mat-cell *matCellDef="let prescription"> {{prescription.code}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let prescription"> {{prescription.status}} </td>
+      </ng-container>
+  
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let prescription">
+          <button mat-button (click)="editPrescription(prescription.id)">Edit</button>
+          <button mat-button (click)="deletePrescription(prescription.id)">Delete</button>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="['code', 'status', 'actions']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['code', 'status', 'actions'];"></tr>
+    </table>
+  </div>
+  
