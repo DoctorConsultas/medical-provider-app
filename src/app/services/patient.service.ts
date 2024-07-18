@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PatientRequest } from '../models/patient-request.model';
 import { PatientResponse } from '../models/patient-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientService {
-  private apiUrl = 'http://localhost:8080/api/patients';
+  private Url = environment.apiUrl;
+  private apiUrl = `${this.Url}/patients`;
 
   constructor(private http: HttpClient) { }
 

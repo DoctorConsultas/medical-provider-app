@@ -3,12 +3,14 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { MedicRequest } from '../models/medic-request.model';
 import { MedicResponse } from '../models/medic-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MedicService {
-  private apiUrl = 'http://localhost:8080/api/medics';
+  private Url = environment.apiUrl;
+  private apiUrl = `${this.Url}/medics`;
 
   constructor(private http: HttpClient) { }
 
@@ -30,5 +32,10 @@ export class MedicService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+  
+  search(medicalProviderId: string, searchCriteria: string): Observable<MedicResponse[]> {
+    const searchUrl = `${this.apiUrl}/search?medicalProviderId=${medicalProviderId}&searchCriteria=${searchCriteria}`;
+    return this.http.get<MedicResponse[]>(searchUrl);
   }
 }

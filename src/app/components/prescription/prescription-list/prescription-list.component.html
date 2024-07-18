@@ -1,0 +1,62 @@
+
+  <h2>Prescriptions</h2>
+  <div class="card flex justify-content-center">
+    <p-dropdown 
+      [options]="filteredMedics" 
+      [(ngModel)]="selectedDoctor" 
+      optionLabel="name" 
+      [filter]="true" 
+      filterBy="name" 
+      [showClear]="true"
+      placeholder="Select a Doctor"
+      styleClass="w-20rem"
+      (onChange)="onDoctorSelect($event)">
+      <ng-template pTemplate="filter" let-options="options">
+        <div class="flex gap-1">
+          <div class="p-inputgroup" (click)="$event.stopPropagation()">
+            <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+            <input 
+              type="text"
+              pInputText
+              placeholder="Filter"
+              [(ngModel)]="filterValue"
+              (keyup)="customFilterFunction($event, options)" />
+          </div>
+          <!--<button pButton icon="pi pi-times" (click)="resetFunction(options)"></button>-->
+        </div>
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-selectedOption>
+        <div class="flex align-items-center gap-2">
+          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-medic pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ medic.name }} {{ medic.lastname }} | {{ medic.email }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
+  </div>
+
+  <p-table [value]="prescriptions" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [lazy]="true"
+           (onLazyLoad)="loadPrescriptions($event)" [loading]="loading">
+    <ng-template pTemplate="header">
+      <tr>
+        <th>ID</th>
+        <th>Medic ID</th>
+        <th>Patient ID</th>
+        <th>Code</th>
+        <th>Status</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-prescription>
+      <tr>
+        <td>{{ prescription.id }}</td>
+        <td>{{ prescription.medicId }}</td>
+        <td>{{ prescription.patientId }}</td>
+        <td>{{ prescription.code }}</td>
+        <td>{{ prescription.status }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+

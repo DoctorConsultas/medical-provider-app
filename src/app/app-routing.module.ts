@@ -1,38 +1,49 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { HomeSummaryComponent } from './components/home-summary/home-summary.component';
-import { MedicalProviderListComponent } from './components/medical-provider-list/medical-provider-list.component';
-import { MedicalProviderFormComponent } from './components/medical-provider-form/medical-provider-form.component';
-import { MedicListComponent } from './components/medic-list/medic-list.component';
-import { MedicFormComponent } from './components/medic-form/medic-form.component';
-import { PatientListComponent } from './components/patient-list/patient-list.component';
-import { PatientFormComponent } from './components/patient-form/patient-form.component';
-import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
-import { PrescriptionFormComponent } from './components/prescription-form/prescription-form.component';
+import { HomeSummaryComponent } from './components/home/home-summary/home-summary.component';
+import { MedicComponent } from './components/medic/medic.component';
+import { MedicListComponent } from './components/medic/medic-list/medic-list.component';
+import { MedicFormComponent } from './components/medic/medic-form/medic-form.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { PatientListComponent } from './components/patient/patient-list/patient-list.component';
+import { PatientFormComponent } from './components/patient/patient-form/patient-form.component';
+import { PrescriptionComponent } from './components/prescription/prescription.component';
+import { PrescriptionListComponent } from './components/prescription/prescription-list/prescription-list.component';
+import { PrescriptionFormComponent } from './components/prescription/prescription-form/prescription-form.component';
+import { MedicalProviderComponent } from './components/medical-provider/medical-provider.component';
+import { MedicalProviderFormComponent } from './components/medical-provider/medical-provider-form/medical-provider-form.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent, children: [
     { path: 'home', component: HomeSummaryComponent },
-    { path: 'medical-providers', component: MedicalProviderListComponent },
-    { path: 'medical-providers/new', component: MedicalProviderFormComponent },
-    { path: 'medical-providers/edit/:id', component: MedicalProviderFormComponent },
-    { path: 'medics', component: MedicListComponent },
-    { path: 'medics/new', component: MedicFormComponent },
-    { path: 'medics/edit/:id', component: MedicFormComponent },
-    { path: 'patients', component: PatientListComponent },
-    { path: 'patients/new', component: PatientFormComponent },
-    { path: 'patients/edit/:id', component: PatientFormComponent },
-    { path: 'prescriptions', component: PrescriptionListComponent },
-    { path: 'prescriptions/new', component: PrescriptionFormComponent },
-    { path: 'prescriptions/edit/:id', component: PrescriptionFormComponent },
-    { path: '', redirectTo: 'home', pathMatch: 'full' } // Redirigir a la ruta de resumen dentro del HomeComponent
+    { path: 'medical-providers', component: MedicalProviderComponent, children: [
+      { path: '', component: MedicalProviderComponent },
+      { path: 'new', component: MedicalProviderFormComponent },
+      { path: 'edit/:id', component: MedicalProviderFormComponent }
+    ]},
+    { path: 'medics', component: MedicComponent, children: [
+      { path: '', component: MedicListComponent },
+      { path: 'new', component: MedicFormComponent },
+      { path: 'edit/:id', component: MedicFormComponent }
+    ]},
+    { path: 'patients', component: PatientComponent, children: [
+      { path: '', component: PatientListComponent },
+      { path: 'new', component: PatientFormComponent },
+      { path: 'edit/:id', component: PatientFormComponent }
+    ]},
+    { path: 'prescriptions', component: PrescriptionComponent, children: [
+      { path: '', component: PrescriptionListComponent },
+      { path: 'new', component: PrescriptionFormComponent },
+      { path: 'edit/:id', component: PrescriptionFormComponent }
+    ]},
+    { path: '', redirectTo: 'home', pathMatch: 'full' } // Redirect to home summary
   ]},
-  { path: '**', redirectTo: '' } // Redirigir cualquier otra ruta a HomeComponent
+  { path: '**', redirectTo: '' } // Redirect any unknown path to HomeComponent
 ];
-
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
+
 export class AppRoutingModule { }

@@ -1,44 +1,52 @@
-// src/app/app.module.ts
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, provideClientHydration } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http'; // Import provideHttpClient and withFetch
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
-import { MedicalProviderListComponent } from './components/medical-provider-list/medical-provider-list.component';
-import { MedicalProviderFormComponent } from './components/medical-provider-form/medical-provider-form.component';
-import { MedicListComponent } from './components/medic-list/medic-list.component';
-import { MedicFormComponent } from './components/medic-form/medic-form.component';
-import { PatientListComponent } from './components/patient-list/patient-list.component';
-import { PatientFormComponent } from './components/patient-form/patient-form.component';
-import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
-import { PrescriptionFormComponent } from './components/prescription-form/prescription-form.component';
-
-import { HttpClientModule } from '@angular/common/http';
-import { HomeSummaryComponent } from './components/home-summary/home-summary.component';
-
-import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MedicComponent } from './components/medic/medic.component';
+import { MedicFormComponent } from './components/medic/medic-form/medic-form.component';
+import { MedicListComponent } from './components/medic/medic-list/medic-list.component';
+import { PatientComponent } from './components/patient/patient.component';
+import { PatientFormComponent } from './components/patient/patient-form/patient-form.component';
+import { PatientListComponent } from './components/patient/patient-list/patient-list.component';
+import { PrescriptionComponent } from './components/prescription/prescription.component';
+import { PrescriptionFormComponent } from './components/prescription/prescription-form/prescription-form.component';
+import { PrescriptionListComponent } from './components/prescription/prescription-list/prescription-list.component';
+import { HomeSummaryComponent } from './components/home/home-summary/home-summary.component';
+import { MedicalProviderComponent } from './components/medical-provider/medical-provider.component';
+import { MedicalProviderFormComponent } from './components/medical-provider/medical-provider-form/medical-provider-form.component';
+import { MedicalProviderListComponent } from './components/medical-provider/medical-provider-list/medical-provider-list.component';
+import { DropdownModule } from 'primeng/dropdown';
+import {MatCardModule} from '@angular/material/card';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    MedicalProviderListComponent,
-    MedicalProviderFormComponent,
-    MedicListComponent,
+    HomeSummaryComponent,
+    MedicComponent,
     MedicFormComponent,
-    PatientListComponent,
+    MedicListComponent,
+    PatientComponent,
     PatientFormComponent,
-    PrescriptionListComponent,
+    PatientListComponent,
+    PrescriptionComponent,
     PrescriptionFormComponent,
-    HomeSummaryComponent
+    PrescriptionListComponent,
+    MedicalProviderComponent,
+    MedicalProviderFormComponent,
+    MedicalProviderListComponent
   ],
   imports: [
     BrowserModule,
@@ -50,10 +58,20 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     MatSidenavModule,
     MatListModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
-    NgxChartsModule
+    BrowserModule,
+    TableModule,
+    PaginatorModule,
+    HttpClientModule,
+    DropdownModule,
+    MatCardModule
   ],
-  providers: [],
+  providers: [
+    provideClientHydration(),
+    provideHttpClient(withFetch()) // Provide HttpClient with fetch
+  ],
+  
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

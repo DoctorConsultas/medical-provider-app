@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PrescriptionRequest } from '../models/prescription-request.model';
 import { PrescriptionResponse } from '../models/prescription-response.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrescriptionService {
-  private apiUrl = 'http://localhost:8080/api/prescriptions';
+  private Url = environment.apiUrl;
+  private apiUrl = `${this.Url}/prescriptions`;
 
   constructor(private http: HttpClient) { }
 
@@ -30,5 +32,24 @@ export class PrescriptionService {
 
   delete(id: string): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
+  }
+
+  getPrescriptionsByMedicalProviderId(medicalProviderId: string, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('medicalProviderId', medicalProviderId)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/by-medical-provider-paginated`, { params });
+  }
+
+  getPrescriptionsByMedicIdAndMedicalProviderId(medicId: string, medicalProviderId: string, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('medicId', medicId)
+      .set('medicalProviderId', medicalProviderId)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/by-medic-and-medical-provider-paginated`, { params });
   }
 }
