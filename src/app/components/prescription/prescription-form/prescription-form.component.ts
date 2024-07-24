@@ -33,9 +33,9 @@ export class PrescriptionFormComponent implements OnInit {
     if (id) {
       this.isEdit = true;
       this.prescriptionId = id;
-      this.prescriptionService.getById(id).subscribe((data: PrescriptionResponse) => {
+      /* this.prescriptionService.getById(id).subscribe((data: PrescriptionResponse) => {
         this.prescription = { ...data }; // No es necesario manejar la contraseña aquí
-      });
+      });*/
     }
   }
 

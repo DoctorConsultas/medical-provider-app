@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { PrescriptionService } from '../../../services/prescription.service'; 
-import { PrescriptionResponse } from '../../../models/prescription-response.model'; 
+import { PrescriptionResponse, Document } from '../../../models/prescription-response.model'; 
 import { MedicService } from '../../../services/medic.service';
 import { MedicResponse } from '../../../models/medic-response.model';
 import { DropdownFilterOptions } from 'primeng/dropdown';
@@ -66,7 +66,10 @@ export class PrescriptionListComponent implements OnInit {
     if (this.medicId && this.medicId !== 'all') {
       this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, event.first / event.rows, event.rows)
         .subscribe(data => {
-          this.prescriptions = data.content;
+          this.prescriptions = data.content.map((prescription: any) => ({
+            ...prescription,
+            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
+          }));
           this.totalRecords = data.totalElements;
           this.loading = false;
         }, error => {
@@ -76,7 +79,10 @@ export class PrescriptionListComponent implements OnInit {
     } else {
       this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, event.first / event.rows, event.rows)
         .subscribe(data => {
-          this.prescriptions = data.content;
+          this.prescriptions = data.content.map((prescription: any) => ({
+            ...prescription,
+            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
+          }));
           this.totalRecords = data.totalElements;
           this.loading = false;
         }, error => {
