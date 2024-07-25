@@ -15,13 +15,15 @@ import { PatientResponse } from '../../../models/patient-response.model';
 export class PrescriptionListComponent implements OnInit {
   prescriptions: PrescriptionResponse[] = [];
   medics: MedicResponse[] = [];
-  patiens: PatientResponse[] = [];
+  patients: PatientResponse[] = [];
   filteredMedics: MedicResponse[] = [];
+  filteredPatients: PatientResponse[] = [];
   totalRecords!: number;
   loading: boolean = true;
   medicalProviderId: string = '39';
   filterValue: string | undefined = '';
   selectedDoctor!: MedicResponse;
+  selectedPatient!: PatientResponse;
   medicId: string = '';
 
   defaultMedic: MedicResponse = {
@@ -39,6 +41,27 @@ export class PrescriptionListComponent implements OnInit {
     status: '',
   };
 
+  defaultPatient: PatientResponse = {
+    id: 'all',
+    name: 'All Patients',
+    lastname: '',
+    email: '',
+    phone: '',
+    document: '',
+    addressCountryId: '',
+    addressLocalityId: '',
+    addressStreet: '',
+    addressNumber: '',
+    addressComments: '',
+    user: '',
+    password: '',
+    birthdate: '',
+    createdAt: '',
+    updatedAt: '',
+    sex: '',
+    avatarId: '',
+  };
+
   constructor(
     private prescriptionService: PrescriptionService,
     private medicService: MedicService,
@@ -49,7 +72,7 @@ export class PrescriptionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.searchMedics(this.medicalProviderId, ''); // Initial load
-    this.getPatiensByMedicalProvider(this.medicalProviderId)
+    this.getPatientsByMedicalProvider(this.medicalProviderId);
   }
 
   searchMedics(medicalProviderId: string, searchCriteria: string): void {
@@ -66,16 +89,17 @@ export class PrescriptionListComponent implements OnInit {
     );
   }
 
-  getPatiensByMedicalProvider(medicalProviderId: string): void {
+  getPatientsByMedicalProvider(medicalProviderId: string): void {
     this.patientService.getPatiensByMedicalProvider(medicalProviderId).subscribe(
       (data: PatientResponse[]) => {
         this.zone.run(() => {
-          this.patiens = data;
-          console.log(this.patiens);
+          this.patients = [this.defaultPatient, ...data];
+          this.filteredPatients = this.patients;
+          console.log(this.patients);
         });
       },
       error => {
-        console.error('Error fetching medics', error);
+        console.error('Error fetching patients', error);
       }
     );
   }
