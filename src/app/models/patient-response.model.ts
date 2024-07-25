@@ -19,4 +19,3 @@ export interface PatientResponse {
     sex?: string;
     avatarId?: string;
   }
-  

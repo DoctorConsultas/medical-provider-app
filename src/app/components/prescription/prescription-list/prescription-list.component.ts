@@ -4,6 +4,8 @@ import { PrescriptionResponse, Document } from '../../../models/prescription-res
 import { MedicService } from '../../../services/medic.service';
 import { MedicResponse } from '../../../models/medic-response.model';
 import { DropdownFilterOptions } from 'primeng/dropdown';
+import { PatientService } from '../../../services/patient.service';
+import { PatientResponse } from '../../../models/patient-response.model';
 
 @Component({
   selector: 'app-prescription-list',
@@ -13,6 +15,7 @@ import { DropdownFilterOptions } from 'primeng/dropdown';
 export class PrescriptionListComponent implements OnInit {
   prescriptions: PrescriptionResponse[] = [];
   medics: MedicResponse[] = [];
+  patiens: PatientResponse[] = [];
   filteredMedics: MedicResponse[] = [];
   totalRecords!: number;
   loading: boolean = true;
@@ -39,12 +42,14 @@ export class PrescriptionListComponent implements OnInit {
   constructor(
     private prescriptionService: PrescriptionService,
     private medicService: MedicService,
+    private patientService: PatientService,
     private zone: NgZone,
     private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
     this.searchMedics(this.medicalProviderId, ''); // Initial load
+    this.getPatiensByMedicalProvider(this.medicalProviderId)
   }
 
   searchMedics(medicalProviderId: string, searchCriteria: string): void {
@@ -53,6 +58,20 @@ export class PrescriptionListComponent implements OnInit {
         this.zone.run(() => {
           this.medics = [this.defaultMedic, ...data];
           this.filteredMedics = this.medics;
+        });
+      },
+      error => {
+        console.error('Error fetching medics', error);
+      }
+    );
+  }
+
+  getPatiensByMedicalProvider(medicalProviderId: string): void {
+    this.patientService.getPatiensByMedicalProvider(medicalProviderId).subscribe(
+      (data: PatientResponse[]) => {
+        this.zone.run(() => {
+          this.patiens = data;
+          console.log(this.patiens);
         });
       },
       error => {
