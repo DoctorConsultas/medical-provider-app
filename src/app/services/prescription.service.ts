@@ -52,4 +52,15 @@ export class PrescriptionService {
 
     return this.http.get<any>(`${this.apiUrl}/by-medic-and-medical-provider-paginated`, { params });
   }
+
+  getPrescriptionsByPatientIdAndMedicalProviderId(patientId: string, medicalProviderId: string, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('patientId', patientId)
+      .set('medicalProviderId', medicalProviderId)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/by-patient-and-medical-provider-paginated`, { params });
+  }
+  
 }

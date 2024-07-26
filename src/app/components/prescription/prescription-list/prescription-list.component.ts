@@ -21,10 +21,12 @@ export class PrescriptionListComponent implements OnInit {
   totalRecords!: number;
   loading: boolean = true;
   medicalProviderId: string = '39';
-  filterValue: string | undefined = '';
+  filterValueMedic: string | undefined = '';
+  filterValuePatien: string | undefined = '';
   selectedDoctor!: MedicResponse;
   selectedPatient!: PatientResponse;
   medicId: string = '';
+  patientId: string = '';
 
   defaultMedic: MedicResponse = {
     id: 'all',
@@ -95,8 +97,7 @@ export class PrescriptionListComponent implements OnInit {
         this.zone.run(() => {
           this.patients = [this.defaultPatient, ...data];
           this.filteredPatients = this.patients;
-          console.log(this.patients);
-        });
+         });
       },
       error => {
         console.error('Error fetching patients', error);
@@ -108,6 +109,19 @@ export class PrescriptionListComponent implements OnInit {
     this.loading = true;
     if (this.medicId && this.medicId !== 'all') {
       this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, event.first / event.rows, event.rows)
+        .subscribe(data => {
+          this.prescriptions = data.content.map((prescription: any) => ({
+            ...prescription,
+            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
+          }));
+          this.totalRecords = data.totalElements;
+          this.loading = false;
+        }, error => {
+          console.error('Error fetching prescriptions by doctor', error);
+          this.loading = false;
+        });
+    } if (this.patientId && this.patientId !== 'all') {
+      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, event.first / event.rows, event.rows)
         .subscribe(data => {
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
@@ -138,25 +152,54 @@ export class PrescriptionListComponent implements OnInit {
   onDoctorSelect(event: any): void {
     const selectedDoctor = event.value;
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
+    this.selectedPatient = this.defaultPatient;
+    this.filterValuePatien = '';
     this.loadPrescriptions({ first: 0, rows: 15 });
   }
 
-  onFilter(event: any): void {
+  onPatienSelect(event: any): void {
+    const selectedPatient = event.value;
+    this.patientId = selectedPatient.id !== 'all' ? selectedPatient.id : '';
+    this.selectedDoctor = this.defaultMedic;
+    this.filterValueMedic = '';
+    this.loadPrescriptions({ first: 0, rows: 15 });
+  }
+
+  onFilterMedic(event: any): void {
     const searchCriteria = event.filter;
     this.searchMedics(this.medicalProviderId, searchCriteria);
   }
 
-  resetFunction(options: DropdownFilterOptions): void {
+  onFilterPatien(event: any): void {
+    const searchCriteria = event.filter;
+    this.getPatientsByMedicalProvider(this.medicalProviderId);
+  }
+
+  resetFunctionMedic(options: DropdownFilterOptions): void {
     if (options && options.reset) {
       options.reset();
-      this.filterValue = '';
+      this.filterValueMedic = '';
     }
   }
 
-  customFilterFunction(event: KeyboardEvent, options: DropdownFilterOptions): void {
+  resetFunctionPatien(options: DropdownFilterOptions): void {
+    if (options && options.reset) {
+      options.reset();
+      this.filterValuePatien = '';
+    }
+  }
+
+  customFilterMedic(event: KeyboardEvent, options: DropdownFilterOptions): void {
     const target = event.target as HTMLInputElement;
-    const filterValue = target.value;
-    console.log(filterValue);
+    const filterValueMedic = target.value;
+    if (options && options.filter) {
+      options.filter(event);
+    }
+  }
+
+  customFilterPatien(event: KeyboardEvent, options: DropdownFilterOptions): void {
+    const target = event.target as HTMLInputElement;
+    const filterValuePatien = target.value;
 
     if (options && options.filter) {
       options.filter(event);
