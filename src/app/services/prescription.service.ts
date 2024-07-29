@@ -62,5 +62,16 @@ export class PrescriptionService {
 
     return this.http.get<any>(`${this.apiUrl}/by-patient-and-medical-provider-paginated`, { params });
   }
+
+  getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId: string, startDate: string, endDate: string, page: number, size: number): Observable<any> {
+    let params = new HttpParams()
+      .set('medicalProviderId', medicalProviderId)
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('page', page.toString())
+      .set('size', size.toString());
+
+    return this.http.get<any>(`${this.apiUrl}/by-medical-provider-and-date-range`, { params });
+  }
   
 }

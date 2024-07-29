@@ -74,6 +74,16 @@
   </p-dropdown>
 </div>
 
+<div class="card flex justify-content-center">
+  <p-calendar 
+    [(ngModel)]="rangeDates" 
+    dateFormat="yy-mm-dd"
+    selectionMode="range" 
+    [showIcon]="true" 
+    [readonlyInput]="true"
+    (onSelect)="onDateSelect()"/>
+</div>
+
 <p-table [value]="prescriptions" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [lazy]="true"
          (onLazyLoad)="loadPrescriptions($event)" [loading]="loading">
   <ng-template pTemplate="header">

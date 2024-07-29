@@ -27,6 +27,7 @@ export class PrescriptionListComponent implements OnInit {
   selectedPatient!: PatientResponse;
   medicId: string = '';
   patientId: string = '';
+  rangeDates: Date[] | undefined;
 
   defaultMedic: MedicResponse = {
     id: 'all',
@@ -106,10 +107,17 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   loadPrescriptions(event: any): void {
+    debugger;
+    // Clear the current prescriptions before loading new data
     this.loading = true;
+
+    const page = event.first / event.rows;
+    const size = event.rows;
+
     if (this.medicId && this.medicId !== 'all') {
-      this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, event.first / event.rows, event.rows)
+      this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, page, size)
         .subscribe(data => {
+          debugger;
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -120,9 +128,10 @@ export class PrescriptionListComponent implements OnInit {
           console.error('Error fetching prescriptions by doctor', error);
           this.loading = false;
         });
-    } if (this.patientId && this.patientId !== 'all') {
-      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, event.first / event.rows, event.rows)
+    } else if (this.patientId && this.patientId !== 'all') {
+      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, page, size)
         .subscribe(data => {
+          debugger;
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -130,11 +139,15 @@ export class PrescriptionListComponent implements OnInit {
           this.totalRecords = data.totalElements;
           this.loading = false;
         }, error => {
-          console.error('Error fetching prescriptions by doctor', error);
+          console.error('Error fetching prescriptions by patient', error);
           this.loading = false;
         });
+    } else if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+      const startDate = this.formatDate(this.rangeDates[0]);
+      const endDate = this.formatDate(this.rangeDates[1]);
+      this.fetchPrescriptionsByDateRange(this.medicalProviderId, startDate, endDate, page, size);
     } else {
-      this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, event.first / event.rows, event.rows)
+      this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, page, size)
         .subscribe(data => {
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
@@ -154,6 +167,9 @@ export class PrescriptionListComponent implements OnInit {
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
     this.selectedPatient = this.defaultPatient;
     this.filterValuePatien = '';
+    this.rangeDates = [];
+    this.prescriptions = [];
+    this.patientId = 'all';
     this.loadPrescriptions({ first: 0, rows: 15 });
   }
 
@@ -162,7 +178,25 @@ export class PrescriptionListComponent implements OnInit {
     this.patientId = selectedPatient.id !== 'all' ? selectedPatient.id : '';
     this.selectedDoctor = this.defaultMedic;
     this.filterValueMedic = '';
+    this.rangeDates = [];
+    this.prescriptions = [];
+    this.medicId = 'all';
     this.loadPrescriptions({ first: 0, rows: 15 });
+  }
+
+  onDateSelect() {
+    if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
+      const startDate = this.formatDate(this.rangeDates[0]);
+      const endDate = this.formatDate(this.rangeDates[1]);
+      this.medicId = 'all';
+      this.patientId = 'all';
+      this.selectedDoctor = this.defaultMedic;
+      this.selectedPatient = this.defaultPatient;
+      this.filterValueMedic = '';
+      this.filterValuePatien = '';
+      this.prescriptions = [];
+      this.loadPrescriptions({ first: 0, rows: 15 });
+    }
   }
 
   onFilterMedic(event: any): void {
@@ -204,5 +238,29 @@ export class PrescriptionListComponent implements OnInit {
     if (options && options.filter) {
       options.filter(event);
     }
+  }
+
+
+  fetchPrescriptionsByDateRange(medicalProviderId: string, startDate: string, endDate: string, page: number, size: number): void {
+    this.prescriptionService.getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId, startDate, endDate, page, size)
+      .subscribe(
+        data => {
+          debugger;
+          this.prescriptions = data.content;
+          this.totalRecords = data.totalElements;
+          this.loading = false;
+        },
+        error => {
+          console.error('Error fetching prescriptions', error);
+          this.loading = false;
+        }
+      );
+  }
+
+  formatDate(date: Date): string {
+    const year = date.getFullYear();
+    const month = (`0${date.getMonth() + 1}`).slice(-2);
+    const day = (`0${date.getDate()}`).slice(-2);
+    return `${year}-${month}-${day}`;
   }
 }
