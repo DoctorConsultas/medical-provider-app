@@ -84,3 +84,9 @@
   white-space: normal;
   background-color: var(--mat-table-background-color);
 }
+
+
+.card {
+  position: relative; /* Ensure the element is positioned */
+  z-index: 1; /* Adjust the z-index as needed */
+}

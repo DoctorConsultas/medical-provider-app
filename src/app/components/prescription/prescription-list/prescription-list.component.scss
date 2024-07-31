@@ -13,3 +13,18 @@
     margin-right: 8px;
   }
   
+
+  .flex-container {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px; /* Adjust as needed */
+  }
+  
+  .flex-item {
+  //  flex: 1; /* This allows each item to grow and fill space equally */
+    max-width: 33%; /* This makes each item take up approximately 4 columns out of 12 */
+  }
+  
+  .card {
+    padding: 16px; /* Adjust padding as needed */
+  }

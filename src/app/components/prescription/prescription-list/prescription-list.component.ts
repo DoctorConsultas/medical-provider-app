@@ -107,7 +107,6 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   loadPrescriptions(event: any): void {
-    debugger;
     // Clear the current prescriptions before loading new data
     this.loading = true;
 
@@ -117,7 +116,6 @@ export class PrescriptionListComponent implements OnInit {
     if (this.medicId && this.medicId !== 'all') {
       this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, page, size)
         .subscribe(data => {
-          debugger;
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -131,7 +129,6 @@ export class PrescriptionListComponent implements OnInit {
     } else if (this.patientId && this.patientId !== 'all') {
       this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, page, size)
         .subscribe(data => {
-          debugger;
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -245,7 +242,6 @@ export class PrescriptionListComponent implements OnInit {
     this.prescriptionService.getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId, startDate, endDate, page, size)
       .subscribe(
         data => {
-          debugger;
           this.prescriptions = data.content;
           this.totalRecords = data.totalElements;
           this.loading = false;

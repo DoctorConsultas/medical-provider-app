@@ -30,6 +30,7 @@ import { MedicalProviderListComponent } from './components/medical-provider/medi
 import { DropdownModule } from 'primeng/dropdown';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from 'primeng/calendar';
+import { MatGridListModule } from '@angular/material/grid-list';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { CalendarModule } from 'primeng/calendar';
     HttpClientModule,
     DropdownModule,
     MatCardModule,
-    CalendarModule
+    CalendarModule,
+    MatGridListModule
   ],
   providers: [
     provideClientHydration(),
