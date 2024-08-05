@@ -30,7 +30,7 @@ export class PrescriptionListComponent implements OnInit {
   rangeDates: Date[] | undefined;
   statuses: any[] = [
     { name: 'Disponible', key: 'AVAILABLE' },
-    { name: 'Dispenso', key: 'DISPENSED' }
+    { name: 'Dispensada', key: 'DISPENSED' }
   ];
   selectStatusesAUX: any[] = this.statuses; // Initialize with all statuses selected
   selectStatuses: string[] = this.statuses.map(status => status.key);
@@ -281,5 +281,17 @@ export class PrescriptionListComponent implements OnInit {
       default:
         return status;
     }
+  }
+
+  refreshTable(): void {
+    // this.medicId = 'all';
+    // this.patientId = 'all';
+    // this.selectedDoctor = this.defaultMedic;
+    // this.selectedPatient = this.defaultPatient;
+    // this.filterValueMedic = '';
+    // this.filterValuePatien = '';
+    // this.prescriptions = [];
+    // this.rangeDates = [];
+    this.loadPrescriptions({ first: 0, rows: 15 });
   }
 }

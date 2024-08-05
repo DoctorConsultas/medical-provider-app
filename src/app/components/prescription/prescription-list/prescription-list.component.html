@@ -72,6 +72,7 @@
           (onChange)="updateSelectedStatuses()"
       ></p-checkbox>
     </div>
+    <button class="waves-effect waves-light btn" (click)="refreshTable()">Refrescar</button>
 
   </div>
 </div>
@@ -113,8 +114,8 @@
         <span>{{ getStatusLabel(prescription.status) }}</span>
       </td>
       <td>
-        <span ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.pharmacyName }}</span>
-        <span ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt }}</span>
+        <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.pharmacyName }}</span>
+        <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt }}</span>
       </td>
     </tr>
   </ng-template>
