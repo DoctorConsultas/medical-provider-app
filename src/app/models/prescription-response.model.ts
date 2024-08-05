@@ -28,6 +28,12 @@ export interface PrescriptionResponse {
   link: string;
   medicLink: string;
   patientLink: string;
+  ampDsc: String;
+  prodMsp: String;
+  nombreLaboratory: String;
+  rutLaboratory: String;
+  pharmacyId: string;
+  pharmacyName: string;
 }
 
 

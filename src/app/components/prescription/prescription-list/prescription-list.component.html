@@ -1,70 +1,56 @@
 <h2>Prescriptions</h2>
-
-<div class="flex-container">
-  <div class="flex-item">
-    <p-dropdown 
-  [options]="filteredMedics" 
-  [(ngModel)]="selectedDoctor" 
-  optionLabel="name" 
-  [filter]="true" 
-  filterBy="name,lastname,cjp,email" 
-  [showClear]="true"
-  placeholder="Select a Doctor"
-  styleClass="w-20rem"
-  (onChange)="onDoctorSelect($event)">
-  <ng-template pTemplate="filter" let-options="options">
-    <div class="flex gap-1">
-      <div class="p-inputgroup" (click)="$event.stopPropagation()">
-        <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
-        <input 
-          type="text"
-          pInputText
-          placeholder="Filter"
-          [(ngModel)]="filterValueMedic"
-          (keyup)="customFilterMedic($event, options)" />
+      
+<div class="row">
+  <div class="col s8">
+    <div>
+      <div class="flex-item">
+        <p-calendar [(ngModel)]="rangeDates" dateFormat="yy-mm-dd" selectionMode="range" [showIcon]="true"
+          [readonlyInput]="true" (onSelect)="onDateSelect()" />
       </div>
     </div>
-  </ng-template>
-  <ng-template pTemplate="selectedItem" let-selectedOption>
-    <div class="flex align-items-center gap-2">
-      <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} | {{selectedOption.cjp }}</div>
+    <div>
+      <p-dropdown [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
+      filterBy="name,lastname,cjp,email" [showClear]="true" placeholder="Select a Doctor" styleClass="w-20rem"
+      (onChange)="onDoctorSelect($event)">
+      <ng-template pTemplate="filter" let-options="options">
+        <div class="flex gap-1">
+          <div class="p-inputgroup" (click)="$event.stopPropagation()">
+            <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
+            <input type="text" pInputText placeholder="Filter" [(ngModel)]="filterValueMedic"
+              (keyup)="customFilterMedic($event, options)" />
+          </div>
+        </div>
+      </ng-template>
+      <ng-template pTemplate="selectedItem" let-selectedOption>
+        <div class="flex align-items-center gap-2">
+          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} |
+            {{selectedOption.cjp }}</div>
+        </div>
+      </ng-template>
+      <ng-template let-medic pTemplate="item">
+        <div class="flex align-items-center gap-2">
+          <div>{{ medic.name }} {{ medic.lastname }} | {{ medic.email }} | {{ medic.cjp }}</div>
+        </div>
+      </ng-template>
+    </p-dropdown>
     </div>
-  </ng-template>
-  <ng-template let-medic pTemplate="item">
-    <div class="flex align-items-center gap-2">
-      <div>{{ medic.name }} {{ medic.lastname }} | {{ medic.email }} | {{ medic.cjp }}</div>
-    </div>
-  </ng-template>
-</p-dropdown>
-  </div>
-  
-  <div class="flex-item">
-    <p-dropdown 
-      [options]="filteredPatients" 
-      [(ngModel)]="selectedPatient" 
-      optionLabel="name" 
-      [filter]="true" 
-      filterBy="name,lastname,document,email" 
-      [showClear]="true"
-      placeholder="Select a Patient"
-      styleClass="w-20rem"
+    <div>
+      <p-dropdown [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
+      filterBy="name,lastname,document,email" [showClear]="true" placeholder="Select a Patient" styleClass="w-20rem"
       (onChange)="onPatienSelect($event)">
       <ng-template pTemplate="filter" let-options="options">
         <div class="flex gap-1">
           <div class="p-inputgroup" (click)="$event.stopPropagation()">
             <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
-            <input 
-              type="text"
-              pInputText
-              placeholder="Filter"
-              [(ngModel)]="filterValuePatien"
+            <input type="text" pInputText placeholder="Filter" [(ngModel)]="filterValuePatien"
               (keyup)="customFilterPatien($event, options)" />
           </div>
         </div>
       </ng-template>
       <ng-template pTemplate="selectedItem" let-selectedOption>
         <div class="flex align-items-center gap-2">
-          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} | {{selectedOption.document }}</div>
+          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} |
+            {{selectedOption.document }}</div>
         </div>
       </ng-template>
       <ng-template let-patient pTemplate="item">
@@ -73,46 +59,63 @@
         </div>
       </ng-template>
     </p-dropdown>
+    </div>
   </div>
-  
-  <div class="flex-item">
-    <p-calendar 
-      [(ngModel)]="rangeDates" 
-      dateFormat="yy-mm-dd"
-      selectionMode="range" 
-      [showIcon]="true" 
-      [readonlyInput]="true"
-      (onSelect)="onDateSelect()"/>
+  <div class="col s4">
+     
+    <div *ngFor="let status of statuses" class="field-checkbox">
+      <p-checkbox 
+          [(ngModel)]="selectStatusesAUX"
+          [label]="status.name"
+          name="group"
+          [value]="status"
+          (onChange)="updateSelectedStatuses()"
+      ></p-checkbox>
+    </div>
+
   </div>
 </div>
 
 
 <p-table [value]="prescriptions" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [lazy]="true"
-         (onLazyLoad)="loadPrescriptions($event)" [loading]="loading">
+  (onLazyLoad)="loadPrescriptions($event)" [loading]="loading">
   <ng-template pTemplate="header">
     <tr>
-      <th>createdAt</th>
-      <th>code</th>
-      <th>patientDocument</th>
-      <th>patientName</th>
-      <th>patientLastname</th>
-      <th>medicCjp</th>
-      <th>medicName</th>
-      <th>medicLastname</th>
-      <th>status</th>
+      <th>Código</th>
+      
+      <th>Paciente</th>
+      <th>Médico</th>
+      <th>Medicamento</th>
+      <th>Estado</th>
+      <th>nomb. Laboratorio</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-prescription>
     <tr>
-      <td>{{ prescription.createdAt }}</td>
-      <td>{{ prescription.code }}</td>
-      <td>{{ prescription.patientDocument?.number }}</td>
-      <td>{{ prescription.patientName }}</td>
-      <td>{{ prescription.patientLastname }}</td>
-      <td>{{ prescription.medicCjp }}</td>
-      <td>{{ prescription.medicName }}</td>
-      <td>{{ prescription.medicLastname }}</td>
-      <td>{{ prescription.status }}</td>
+      <td>
+        <span>{{ prescription.code }}</span>
+        <span>{{ prescription.createdAt }}</span>
+      </td>
+      <td>
+        <span>{{ prescription.patientName }} {{ prescription.patientName }}</span>
+        <span>{{prescription.patientDocument?.number}}</span>
+      </td>
+      <td>
+        <span>{{ prescription.medicName }} {{ prescription.medicLastname }}</span>
+        <span>{{ prescription.medicCjp }}</span>
+      </td>
+      <td>
+        <span>{{ prescription.ampDsc }}</span>
+        <span>{{ prescription.Laboratorio }}</span>
+      </td>
+
+      <td>
+        <span>{{ getStatusLabel(prescription.status) }}</span>
+      </td>
+      <td>
+        <span ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.pharmacyName }}</span>
+        <span ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt }}</span>
+      </td>
     </tr>
   </ng-template>
 </p-table>

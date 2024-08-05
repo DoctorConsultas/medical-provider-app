@@ -28,6 +28,12 @@ export class PrescriptionListComponent implements OnInit {
   medicId: string = '';
   patientId: string = '';
   rangeDates: Date[] | undefined;
+  statuses: any[] = [
+    { name: 'Disponible', key: 'AVAILABLE' },
+    { name: 'Dispenso', key: 'DISPENSED' }
+  ];
+  selectStatusesAUX: any[] = this.statuses; // Initialize with all statuses selected
+  selectStatuses: string[] = this.statuses.map(status => status.key);
 
   defaultMedic: MedicResponse = {
     id: 'all',
@@ -107,14 +113,13 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   loadPrescriptions(event: any): void {
-    // Clear the current prescriptions before loading new data
     this.loading = true;
 
     const page = event.first / event.rows;
     const size = event.rows;
 
     if (this.medicId && this.medicId !== 'all') {
-      this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, page, size)
+      this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
@@ -127,7 +132,7 @@ export class PrescriptionListComponent implements OnInit {
           this.loading = false;
         });
     } else if (this.patientId && this.patientId !== 'all') {
-      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, page, size)
+      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
@@ -142,9 +147,9 @@ export class PrescriptionListComponent implements OnInit {
     } else if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const startDate = this.formatDate(this.rangeDates[0]);
       const endDate = this.formatDate(this.rangeDates[1]);
-      this.fetchPrescriptionsByDateRange(this.medicalProviderId, startDate, endDate, page, size);
+      this.fetchPrescriptionsByDateRange(this.medicalProviderId, startDate, endDate, this.selectStatuses, page, size);
     } else {
-      this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, page, size)
+      this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
@@ -159,6 +164,14 @@ export class PrescriptionListComponent implements OnInit {
     }
   }
 
+  updateSelectedStatuses(): void {
+    if (this.selectStatusesAUX.length === 0) {
+      // Ensure at least one status is selected, revert to default if all are unchecked
+      this.selectStatusesAUX = [...this.statuses];
+    }
+    this.selectStatuses = this.selectStatusesAUX.map(status => status.key);
+  }
+  
   onDoctorSelect(event: any): void {
     const selectedDoctor = event.value;
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
@@ -237,9 +250,8 @@ export class PrescriptionListComponent implements OnInit {
     }
   }
 
-
-  fetchPrescriptionsByDateRange(medicalProviderId: string, startDate: string, endDate: string, page: number, size: number): void {
-    this.prescriptionService.getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId, startDate, endDate, page, size)
+  fetchPrescriptionsByDateRange(medicalProviderId: string, startDate: string, endDate: string, selectStatuses: string[], page: number, size: number): void {
+    this.prescriptionService.getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId, startDate, endDate, selectStatuses, page, size)
       .subscribe(
         data => {
           this.prescriptions = data.content;
@@ -258,5 +270,16 @@ export class PrescriptionListComponent implements OnInit {
     const month = (`0${date.getMonth() + 1}`).slice(-2);
     const day = (`0${date.getDate()}`).slice(-2);
     return `${year}-${month}-${day}`;
+  }
+
+  getStatusLabel(status: string): string {
+    switch (status) {
+      case 'AVAILABLE':
+        return 'Disponible';
+      case 'DISPENSED':
+        return 'Dispensada';
+      default:
+        return status;
+    }
   }
 }

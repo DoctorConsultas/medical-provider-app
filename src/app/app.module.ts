@@ -27,6 +27,7 @@ import { HomeSummaryComponent } from './components/home/home-summary/home-summar
 import { MedicalProviderComponent } from './components/medical-provider/medical-provider.component';
 import { MedicalProviderFormComponent } from './components/medical-provider/medical-provider-form/medical-provider-form.component';
 import { MedicalProviderListComponent } from './components/medical-provider/medical-provider-list/medical-provider-list.component';
+import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from 'primeng/calendar';
@@ -69,7 +70,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     DropdownModule,
     MatCardModule,
     CalendarModule,
-    MatGridListModule
+    MatGridListModule,
+    CheckboxModule
   ],
   providers: [
     provideClientHydration(),

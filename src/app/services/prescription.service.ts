@@ -34,44 +34,57 @@ export class PrescriptionService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
-  getPrescriptionsByMedicalProviderId(medicalProviderId: string, page: number, size: number): Observable<any> {
+  getPrescriptionsByMedicalProviderId(medicalProviderId: string, statuses: string[], page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('medicalProviderId', medicalProviderId)
+      .set('statuses', statuses.join(','))
       .set('page', page.toString())
       .set('size', size.toString());
 
     return this.http.get<any>(`${this.apiUrl}/by-medical-provider-paginated`, { params });
   }
 
-  getPrescriptionsByMedicIdAndMedicalProviderId(medicId: string, medicalProviderId: string, page: number, size: number): Observable<any> {
+  getPrescriptionsByMedicIdAndMedicalProviderId(medicId: string, medicalProviderId: string, statuses: string[], page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('medicId', medicId)
       .set('medicalProviderId', medicalProviderId)
+      .set('statuses', statuses.join(','))
       .set('page', page.toString())
       .set('size', size.toString());
 
     return this.http.get<any>(`${this.apiUrl}/by-medic-and-medical-provider-paginated`, { params });
   }
 
-  getPrescriptionsByPatientIdAndMedicalProviderId(patientId: string, medicalProviderId: string, page: number, size: number): Observable<any> {
+  getPrescriptionsByPatientIdAndMedicalProviderId(patientId: string, medicalProviderId: string, statuses: string[], page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('patientId', patientId)
       .set('medicalProviderId', medicalProviderId)
+      .set('statuses', statuses.join(','))
       .set('page', page.toString())
       .set('size', size.toString());
 
     return this.http.get<any>(`${this.apiUrl}/by-patient-and-medical-provider-paginated`, { params });
   }
 
-  getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId: string, startDate: string, endDate: string, page: number, size: number): Observable<any> {
+  getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId: string, startDate: string, endDate: string, statuses: string[], page: number, size: number): Observable<any> {
     let params = new HttpParams()
       .set('medicalProviderId', medicalProviderId)
       .set('startDate', startDate)
       .set('endDate', endDate)
+      .set('statuses', statuses.join(','))
       .set('page', page.toString())
       .set('size', size.toString());
 
     return this.http.get<any>(`${this.apiUrl}/by-medical-provider-and-date-range`, { params });
   }
   
+  getPrescriptionsByMedicIdAndDateRange(medicId: string, startDate: string, endDate: string, statuses: string[]): Observable<PrescriptionResponse[]> {
+    let params = new HttpParams()
+      .set('medicId', medicId)
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('statuses', statuses.join(','));
+      
+    return this.http.get<PrescriptionResponse[]>(`${this.apiUrl}/by-medic-and-date-range`, { params });
+  }
 }
