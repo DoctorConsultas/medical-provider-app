@@ -85,7 +85,7 @@
     <tr>
       <td>
         <span>{{ prescription.code }}</span>
-        <span>{{ prescription.createdAt }}</span>
+        <span>{{ prescription.createdAt | dateTimeFormat }}</span>
       </td>
       <td>
         <span>{{ prescription.patientName }} {{ prescription.patientName }}</span>
@@ -105,7 +105,7 @@
       </td>
       <td>
         <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.pharmacyName }}</span>
-        <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt }}</span>
+        <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt | dateTimeFormat}}</span>
       </td>
     </tr>
   </ng-template>

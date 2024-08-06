@@ -32,6 +32,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from 'primeng/calendar';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
     PrescriptionListComponent,
     MedicalProviderComponent,
     MedicalProviderFormComponent,
-    MedicalProviderListComponent
+    MedicalProviderListComponent,
+    DateTimeFormatPipe
   ],
   imports: [
     BrowserModule,

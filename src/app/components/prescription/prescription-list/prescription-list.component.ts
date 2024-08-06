@@ -6,6 +6,7 @@ import { MedicResponse } from '../../../models/medic-response.model';
 import { DropdownFilterOptions } from 'primeng/dropdown';
 import { PatientService } from '../../../services/patient.service';
 import { PatientResponse } from '../../../models/patient-response.model';
+import { DateTimeFormatPipe } from '../../../pipe/date-time-format-pipe';
 
 @Component({
   selector: 'app-prescription-list',
