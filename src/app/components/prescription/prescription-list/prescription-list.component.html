@@ -9,7 +9,7 @@
   </div>
   <div class="col s3">
     <p-dropdown [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
-      filterBy="name,lastname,cjp" [showClear]="true" placeholder="Select a Doctor" styleClass="w-20rem"
+      filterBy="name,lastname,cjp" [showClear]="true" placeholder="Médico" styleClass="w-20rem"
       (onChange)="onDoctorSelect($event)">
       <ng-template pTemplate="filter" let-options="options">
         <div class="flex gap-1">
@@ -34,7 +34,7 @@
   </div>
   <div class="col s3">
     <p-dropdown [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
-      filterBy="name,lastname,document" [showClear]="true" placeholder="Select a Patient" styleClass="w-20rem"
+      filterBy="name,lastname,document" [showClear]="true" placeholder="Paciente" styleClass="w-20rem"
       (onChange)="onPatienSelect($event)">
       <ng-template pTemplate="filter" let-options="options">
         <div class="flex gap-1">
