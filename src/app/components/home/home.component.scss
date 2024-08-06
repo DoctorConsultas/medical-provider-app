@@ -7,13 +7,13 @@
 
 .custom-sidenav {
   width: 250px;
-  background: #004080; /* Fondo azul */
+  background: white; /* Fondo azul */
   display: flex;
   flex-direction: column;
 }
 
 .custom-toolbar {
-  background: #004080; /* Fondo azul del toolbar en el sidenav */
+  background: white; /* Fondo azul del toolbar en el sidenav */
   display: flex;
   justify-content: center;
   align-items: center;
@@ -34,7 +34,7 @@
   padding: 20px;
   margin-bottom: 10px;
   text-align: center;
-  background: #004080; /* Fondo azul */
+  background: white; /* Fondo azul */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
   transition: background 0.3s, box-shadow 0.3s;
@@ -43,22 +43,22 @@
 }
 
 .menu-item:hover {
-  background: #003366; /* Fondo azul oscuro al pasar el ratón */
+  background: white; /* Fondo azul oscuro al pasar el ratón */
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
 }
 
 .menu-item.active {
-  background: #003366; /* Fondo azul oscuro cuando está activo */
+  background: white; /* Fondo azul oscuro cuando está activo */
   color: white; /* Color de texto en blanco cuando está activo */
 }
 
 .custom-content {
-  background: white; /* Fondo blanco del área de contenido */
+  background: #e2e8f0; /* Fondo blanco del área de contenido */
   flex-grow: 1;
 }
 
 .custom-content-toolbar {
-  background: #004080; /* Fondo azul del toolbar en el contenido */
+  background: white; /* Fondo azul del toolbar en el contenido */
   color: white; /* Color del mensaje en blanco */
 }
 

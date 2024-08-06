@@ -92,3 +92,12 @@
   position: relative; /* Ensure the element is positioned */
   z-index: 1; /* Adjust the z-index as needed */
 }
+
+
+span, h2 {
+  color: #2d323e !important;
+}
+
+mat-sidenav-content {
+  border-color: red !important;
+} 

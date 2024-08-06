@@ -1,16 +1,15 @@
-<h2>Prescriptions</h2>
-      
+<h2>Prescripciones</h2>
+
 <div class="row">
-  <div class="col s8">
-    <div>
-      <div class="flex-item">
-        <p-calendar [(ngModel)]="rangeDates" dateFormat="yy-mm-dd" selectionMode="range" [showIcon]="true"
-          [readonlyInput]="true" (onSelect)="onDateSelect()" />
-      </div>
+  <div class="col s3">
+    <div class="flex-item">
+      <p-calendar [(ngModel)]="rangeDates" dateFormat="yy-mm-dd" selectionMode="range" [showIcon]="true"
+        [readonlyInput]="true" (onSelect)="onDateSelect()" />
     </div>
-    <div>
-      <p-dropdown [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
-      filterBy="name,lastname,cjp,email" [showClear]="true" placeholder="Select a Doctor" styleClass="w-20rem"
+  </div>
+  <div class="col s3">
+    <p-dropdown [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
+      filterBy="name,lastname,cjp" [showClear]="true" placeholder="Select a Doctor" styleClass="w-20rem"
       (onChange)="onDoctorSelect($event)">
       <ng-template pTemplate="filter" let-options="options">
         <div class="flex gap-1">
@@ -23,20 +22,19 @@
       </ng-template>
       <ng-template pTemplate="selectedItem" let-selectedOption>
         <div class="flex align-items-center gap-2">
-          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} |
-            {{selectedOption.cjp }}</div>
+          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.cjp }}</div>
         </div>
       </ng-template>
       <ng-template let-medic pTemplate="item">
         <div class="flex align-items-center gap-2">
-          <div>{{ medic.name }} {{ medic.lastname }} | {{ medic.email }} | {{ medic.cjp }}</div>
+          <div>{{ medic.name }} {{ medic.lastname }} | {{ medic.cjp }}</div>
         </div>
       </ng-template>
     </p-dropdown>
-    </div>
-    <div>
-      <p-dropdown [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
-      filterBy="name,lastname,document,email" [showClear]="true" placeholder="Select a Patient" styleClass="w-20rem"
+  </div>
+  <div class="col s3">
+    <p-dropdown [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
+      filterBy="name,lastname,document" [showClear]="true" placeholder="Select a Patient" styleClass="w-20rem"
       (onChange)="onPatienSelect($event)">
       <ng-template pTemplate="filter" let-options="options">
         <div class="flex gap-1">
@@ -49,33 +47,25 @@
       </ng-template>
       <ng-template pTemplate="selectedItem" let-selectedOption>
         <div class="flex align-items-center gap-2">
-          <div>{{ selectedOption.name }} {{ selectedOption.lastname }} | {{selectedOption.email }} |
-            {{selectedOption.document }}</div>
+          <div>{{ selectedOption.name }} {{ selectedOption.lastname }}</div>
         </div>
       </ng-template>
       <ng-template let-patient pTemplate="item">
         <div class="flex align-items-center gap-2">
-          <div>{{ patient.name }} {{ patient.lastname }} | {{ patient.email }} | {{ patient.document }}</div>
+          <div>{{ patient.name }} {{ patient.lastname }} | {{ patient.document }}</div>
         </div>
       </ng-template>
     </p-dropdown>
-    </div>
   </div>
-  <div class="col s4">
-     
-    <div *ngFor="let status of statuses" class="field-checkbox">
-      <p-checkbox 
-          [(ngModel)]="selectStatusesAUX"
-          [label]="status.name"
-          name="group"
-          [value]="status"
-          (onChange)="updateSelectedStatuses()"
-      ></p-checkbox>
-    </div>
-    <button class="waves-effect waves-light btn" (click)="refreshTable()">Refrescar</button>
 
+  <div *ngFor="let status of statuses" class="field-checkbox col s3">
+    <p-checkbox [(ngModel)]="selectStatusesAUX" [label]="status.name" name="group" [value]="status"
+      (onChange)="updateSelectedStatuses()"></p-checkbox>
   </div>
+  <button class="waves-effect waves-light btn" (click)="refreshTable()">Refrescar</button>
+
 </div>
+
 
 
 <p-table [value]="prescriptions" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [lazy]="true"
@@ -83,7 +73,7 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Código</th>
-      
+
       <th>Paciente</th>
       <th>Médico</th>
       <th>Medicamento</th>
@@ -99,11 +89,11 @@
       </td>
       <td>
         <span>{{ prescription.patientName }} {{ prescription.patientName }}</span>
-        <span>{{prescription.patientDocument?.number}}</span>
+        <span>CI {{prescription.patientDocument?.number}}</span>
       </td>
       <td>
         <span>{{ prescription.medicName }} {{ prescription.medicLastname }}</span>
-        <span>{{ prescription.medicCjp }}</span>
+        <span>CJP {{ prescription.medicCjp }}</span>
       </td>
       <td>
         <span>{{ prescription.ampDsc }}</span>
