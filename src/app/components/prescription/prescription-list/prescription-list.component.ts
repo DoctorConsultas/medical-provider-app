@@ -30,15 +30,16 @@ export class PrescriptionListComponent implements OnInit {
   patientId: string = '';
   rangeDates: Date[] | undefined;
   statuses: any[] = [
+    { name: 'Estado', key: 'ALL' },
     { name: 'Disponible', key: 'AVAILABLE' },
     { name: 'Dispensada', key: 'DISPENSED' }
   ];
-  selectStatusesAUX: any[] = this.statuses; // Initialize with all statuses selected
-  selectStatuses: string[] = this.statuses.map(status => status.key);
+  selectedStatus: any = this.statuses[0]; // Inicialmente seleccionado "Todos"
+  selectStatuses: string[] = this.statuses.map(status => status.key).filter(key => key !== 'ALL'); // Inicialmente todos los estados
 
   defaultMedic: MedicResponse = {
     id: 'all',
-    name: 'All Doctors',
+    name: 'Médico',
     lastname: '',
     email: '',
     password: '',
@@ -53,7 +54,7 @@ export class PrescriptionListComponent implements OnInit {
 
   defaultPatient: PatientResponse = {
     id: 'all',
-    name: 'All Patients',
+    name: 'Paciente',
     lastname: '',
     email: '',
     phone: '',
@@ -165,12 +166,13 @@ export class PrescriptionListComponent implements OnInit {
     }
   }
 
-  updateSelectedStatuses(): void {
-    if (this.selectStatusesAUX.length === 0) {
-      // Ensure at least one status is selected, revert to default if all are unchecked
-      this.selectStatusesAUX = [...this.statuses];
+  updateSelectedStatuses(event: any): void {
+    if (this.selectedStatus.key === 'ALL') {
+        this.selectStatuses = this.statuses.map(status => status.key).filter(key => key !== 'ALL');
+    } else {
+        this.selectStatuses = [this.selectedStatus.key];
     }
-    this.selectStatuses = this.selectStatusesAUX.map(status => status.key);
+    this.refreshTable();
   }
   
   onDoctorSelect(event: any): void {

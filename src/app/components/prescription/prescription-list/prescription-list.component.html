@@ -57,12 +57,17 @@
       </ng-template>
     </p-dropdown>
   </div>
-
-  <div *ngFor="let status of statuses" class="field-checkbox col s3">
-    <p-checkbox [(ngModel)]="selectStatusesAUX" [label]="status.name" name="group" [value]="status"
-      (onChange)="updateSelectedStatuses()"></p-checkbox>
+  <div class="col s3">
+    <p-dropdown 
+      [options]="statuses" 
+      [(ngModel)]="selectedStatus" 
+      optionLabel="name" 
+      [filter]="false"
+      placeholder="Seleccione un Estado" 
+      styleClass="w-20rem"
+      (onChange)="updateSelectedStatuses($event)">
+    </p-dropdown>
   </div>
-  <button class="waves-effect waves-light btn" (click)="refreshTable()">Refrescar</button>
 
 </div>
 
@@ -73,12 +78,11 @@
   <ng-template pTemplate="header">
     <tr>
       <th>Código</th>
-
       <th>Paciente</th>
       <th>Médico</th>
       <th>Medicamento</th>
       <th>Estado</th>
-      <th>nomb. Laboratorio</th>
+      <th>Farmacia</th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-prescription>
@@ -88,7 +92,7 @@
         <span>{{ prescription.createdAt | dateTimeFormat }}</span>
       </td>
       <td>
-        <span>{{ prescription.patientName }} {{ prescription.patientName }}</span>
+        <span>{{ prescription.patientName }} {{ prescription.patientLastname }}</span>
         <span>CI {{prescription.patientDocument?.number}}</span>
       </td>
       <td>
