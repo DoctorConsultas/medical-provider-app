@@ -46,7 +46,11 @@ mat-card-title {
         font-size: 12xp;
         font-weight: bold;
     }
-    p {
+}
 
-    }
+mat-error {
+    display: block;
+    background-color: red;
+    color: white;
+    padding-left: 6px;
 }

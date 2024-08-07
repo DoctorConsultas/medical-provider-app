@@ -1,37 +1,42 @@
 <mat-card>
     <mat-card-title>
-        
-        <div class="row">
-            <div class="col s12">
-                <img src="https://gestion.recetadigital.uy/img/logo.1194faa7.png" alt="">
-            </div>
-            <div class="col s12">
-                <h3>Ingreso administrador</h3>
-            </div>
+      <div class="row">
+        <div class="col s12">
+          <img src="https://gestion.recetadigital.uy/img/logo.1194faa7.png" alt="">
         </div>
+        <div class="col s12">
+          <h3>Ingreso prestadores</h3>
+        </div>
+      </div>
     </mat-card-title>
     <mat-card-content>
-        <form [formGroup]="ngForm" (ngSubmit)="onSubmit()">
-            <p>
-                <mat-form-field>
-                    <input type="text" matInput placeholder="Username" formControlName="username">
-                </mat-form-field>
-            </p>
-
-            <p>
-                <mat-form-field>
-                    <input type="password" matInput placeholder="Password" formControlName="password">
-                </mat-form-field>
-            </p>
-
-            <p *ngIf="error" class="error">
-                {{ error }}
-            </p>
-
-            <div class="button">
-                <button type="submit" mat-button>INGRESAR</button>
-            </div>
-
-        </form>
+      <form [formGroup]="ngForm" (ngSubmit)="onSubmit()">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Username" formControlName="username">
+            <mat-error *ngIf="usernameControl.touched && usernameControl.invalid">
+              Username is required.
+            </mat-error>
+          </mat-form-field>
+        </p>
+  
+        <p>
+          <mat-form-field>
+            <input type="password" matInput placeholder="Password" formControlName="password">
+            <mat-error *ngIf="passwordControl.touched && passwordControl.invalid">
+              Password is required.
+            </mat-error>
+          </mat-form-field>
+        </p>
+  
+        <p *ngIf="error" class="error">
+          {{ error }}
+        </p>
+  
+        <div class="button">
+          <button type="submit" mat-button>INGRESAR</button>
+        </div>
+      </form>
     </mat-card-content>
-</mat-card>
+  </mat-card>
+  

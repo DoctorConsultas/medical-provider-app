@@ -1,6 +1,6 @@
-import { Input, Component, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,31 +8,37 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  username: string = '';
-  password: string = '';
-
   ngForm: FormGroup = new FormGroup({
-    username: new FormControl(''),
-    password: new FormControl(''),
+    username: new FormControl('', Validators.required),
+    password: new FormControl('', Validators.required),
   });
-  @Input() error!: string | null;
+
+  @Input() error: string | null = null;
   @Output() submitEM = new EventEmitter();
 
   private readonly hardcodedUsername = 'admin';
-  private readonly hardcodedPassword = 'password123';
+  private readonly hardcodedPassword = 'password';
 
   constructor(private router: Router) { }
+
+  get usernameControl() {
+    return this.ngForm.get('username')!;
+  }
+
+  get passwordControl() {
+    return this.ngForm.get('password')!;
+  }
+
   onSubmit(): void {
+    if (this.ngForm.invalid) {
+      this.ngForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
+      return;
+    }
 
-
-    if (this.hardcodedPassword == this.ngForm.get('password')?.value && this.hardcodedUsername == this.ngForm.get('username')?.value) {
+    if (this.hardcodedPassword === this.passwordControl.value && this.hardcodedUsername === this.usernameControl.value) {
       this.router.navigate(['/prescriptions']);
-      
     } else {
       this.error = 'Error Credenciales!!!';
     }
-    
   }
-
-
 }
