@@ -33,6 +33,7 @@ import {MatCardModule} from '@angular/material/card';
 import { CalendarModule } from 'primeng/calendar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
+import { LoginComponent } from './components/login/login.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
     MedicalProviderComponent,
     MedicalProviderFormComponent,
     MedicalProviderListComponent,
-    DateTimeFormatPipe
+    DateTimeFormatPipe,
+    LoginComponent
   ],
   imports: [
     BrowserModule,

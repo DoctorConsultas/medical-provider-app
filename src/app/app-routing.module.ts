@@ -13,9 +13,12 @@ import { PrescriptionListComponent } from './components/prescription/prescriptio
 import { PrescriptionFormComponent } from './components/prescription/prescription-form/prescription-form.component';
 import { MedicalProviderComponent } from './components/medical-provider/medical-provider.component';
 import { MedicalProviderFormComponent } from './components/medical-provider/medical-provider-form/medical-provider-form.component';
+import { LoginComponent } from './components/login/login.component';
 
+// Add this to your routes array
 const routes: Routes = [
   { path: '', component: HomeComponent, children: [
+    // Existing routes
     { path: 'home', component: HomeSummaryComponent },
     { path: 'medical-providers', component: MedicalProviderComponent, children: [
       { path: '', component: MedicalProviderComponent },
@@ -39,6 +42,7 @@ const routes: Routes = [
     ]},
     { path: '', redirectTo: 'home', pathMatch: 'full' } // Redirect to home summary
   ]},
+  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: '' } // Redirect any unknown path to HomeComponent
 ];
 @NgModule({
