@@ -25,3 +25,37 @@ Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To u
 ## Further help
 
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+
+
+
+
+
+Despliegue
+`https://docs.google.com/document/d/1Zy6-83G1DR7YxM7MS5mYrNfvNxblda8SUzCi3Y234fo/edit`
+
+# Listar las imágenes almacenadas en tu Docker Registry desde una máquina local
+```az acr repository list --name adaazureregistry --output table```
+```az acr repository show-tags --name adaazureregistry --repository medical-provider-app --output table```
+
+# VPN down
+
+# build image
+docker build -t medical-provider-app .
+
+# VPN up
+
+# Tag
+docker tag medical-provider-app:latest medical-provider-app:1.0.0
+
+
+# docker run local
+docker run -d --name medical-provider-app -p 4200:80 -t medical-provider-app
+
+# docker run develop
+docker run -d --name medical-provider-app -p 4200:80 -e API_URL='http://prestadores.recetalia.com:8080' -t medical-provider-app
+
+# push to registry
+docker push medical-provider-app
+
+##### docker run consuming a different api than api Url: 'http://localhost:8060'
+docker run -d --name medical-provider-app -p 4200:80 -e API_URL='(ip recetalia-api-rest)' -t medical-provider-app
