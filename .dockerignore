@@ -1,0 +1,8 @@
+# Node modules
+node_modules
+
+# Build artifacts
+/dist
+
+# Dependency directories
+/bower_components
