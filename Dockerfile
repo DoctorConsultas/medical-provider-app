@@ -22,8 +22,10 @@ FROM nginx:alpine
 # Copy the built application from the previous stage
 COPY --from=build /app/dist/medical-provider-app /usr/share/nginx/html
 
+RUN rm /etc/nginx/conf.d/default.conf
+
 # Copy the custom Nginx configuration file
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY default.conf /etc/nginx/conf.d
 
 # Copy a startup script
 COPY ./docker-entrypoint.sh /usr/local/bin/
