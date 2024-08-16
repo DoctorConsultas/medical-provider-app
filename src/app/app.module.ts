@@ -34,6 +34,8 @@ import { CalendarModule } from 'primeng/calendar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
 import { LoginComponent } from './components/login/login.component';
+import { AuthModule } from '@auth0/auth0-angular';
+import { environment as env } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -75,7 +77,10 @@ import { LoginComponent } from './components/login/login.component';
     MatCardModule,
     CalendarModule,
     MatGridListModule,
-    CheckboxModule
+    CheckboxModule,
+    AuthModule.forRoot({
+      ...env.auth0,
+    })
   ],
   providers: [
     provideClientHydration(),
