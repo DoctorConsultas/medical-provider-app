@@ -52,7 +52,7 @@ docker tag medical-provider-app:latest medical-provider-app:1.0.0
 docker run -d --name medical-provider-app -p 4200:80 -t medical-provider-app
 
 # docker run develop
-docker run -d --name medical-provider-app -p 4200:80 -e API_URL='http://prestadores.recetalia.com:8080' -t medical-provider-app
+docker run -d --name medical-provider-app -p 4200:80 -e API_URL='https://prestadores.recetalia.com/api' -t medical-provider-app
 
 # push to registry
 docker push medical-provider-app
