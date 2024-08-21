@@ -36,6 +36,7 @@ import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
 import { LoginComponent } from './components/login/login.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
+import { DocumentNumberPipe } from './pipe/document-number.pipe';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { environment as env } from '../environments/environment';
     MedicalProviderFormComponent,
     MedicalProviderListComponent,
     DateTimeFormatPipe,
-    LoginComponent
+    LoginComponent,
+    DocumentNumberPipe
   ],
   imports: [
     BrowserModule,

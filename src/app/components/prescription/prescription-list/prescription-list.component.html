@@ -52,7 +52,7 @@
       </ng-template>
       <ng-template let-patient pTemplate="item">
         <div class="flex align-items-center gap-2">
-          <div>{{ patient.name }} {{ patient.lastname }} | {{ patient.document }}</div>
+          <div>{{ patient.name }} {{ patient.lastname }} | {{ patient.document | documentNumber }}</div>
         </div>
       </ng-template>
     </p-dropdown>
