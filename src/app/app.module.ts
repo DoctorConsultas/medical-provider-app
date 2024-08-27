@@ -7,7 +7,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http'; // Import provideHttpClient and withFetch
+import { HTTP_INTERCEPTORS, HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http'; // Import provideHttpClient and withFetch
 import { TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 
@@ -37,6 +37,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AuthModule } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
 import { DocumentNumberPipe } from './pipe/document-number.pipe';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -86,7 +87,13 @@ import { DocumentNumberPipe } from './pipe/document-number.pipe';
   ],
   providers: [
     provideClientHydration(),
-    provideHttpClient(withFetch()) // Provide HttpClient with fetch
+    provideHttpClient(withFetch()), // Provide HttpClient with fetch
+    provideClientHydration(),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
   ],
   
   bootstrap: [AppComponent],

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
+import { map, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,10 @@ export class AuthService {
     } as any);
   }
 
-
+  // Method to get the token
+  getToken(): Observable<string | null> {
+    return this.auth.idTokenClaims$.pipe(
+      map(claims => claims?.__raw ?? null)
+  );
+}
 }
