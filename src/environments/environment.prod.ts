@@ -6,7 +6,7 @@ export const environment = {
       domain: 'dev-w3y7ykm3xm4ahdoa.us.auth0.com',
       clientId: 'gnTtV5PRZZRU8RQ4QL8e6RRZUGR1KKQ9',
       authorizationParams: {
-        redirect_uri: 'http://localhost:4200/prescriptions',
+        redirect_uri: 'https://prestadores.recetalia.com/prescriptions',
       },
       errorPath: '/callback',
     }
