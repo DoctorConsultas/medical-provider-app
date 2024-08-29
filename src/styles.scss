@@ -94,8 +94,9 @@
 }
 
 
-span, h2 {
+span, h2, h5 {
   color: #2d323e !important;
+  font-family: Hind, sans-serif !important;
 }
 
 mat-sidenav-content {
@@ -104,4 +105,8 @@ mat-sidenav-content {
 
 p-calendar span input {
   width: 12rem !important;
+}
+
+.mdc-list-item__primary-text {
+  font-size: 13px !important;
 }

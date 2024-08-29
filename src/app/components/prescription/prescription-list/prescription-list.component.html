@@ -58,23 +58,26 @@
     </p-dropdown>
   </div>
   <div class="col s3">
-    <p-dropdown 
-      [options]="statuses" 
-      [(ngModel)]="selectedStatus" 
-      optionLabel="name" 
-      [filter]="false"
-      placeholder="Seleccione un Estado" 
-      styleClass="w-20rem"
-      (onChange)="updateSelectedStatuses($event)">
+    <p-dropdown [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" [filter]="false"
+      placeholder="Seleccione un Estado" styleClass="w-20rem" (onChange)="updateSelectedStatuses($event)">
     </p-dropdown>
   </div>
 
 </div>
 
 
-
-<p-table [value]="prescriptions" [paginator]="true" [rows]="15" [totalRecords]="totalRecords" [lazy]="true"
-  (onLazyLoad)="loadPrescriptions($event)" [loading]="loading">
+<div class="content-table">
+<p-table 
+  [value]="prescriptions" 
+  selectionMode="single" 
+  [paginator]="true" 
+  [rows]="20" 
+  [totalRecords]="totalRecords" 
+  [lazy]="true"
+  (onLazyLoad)="loadPrescriptions($event)" 
+  [loading]="loading"
+  [rowsPerPageOptions]="[5, 10, 25, 50]"
+  class="custom-table">
   <ng-template pTemplate="header">
     <tr>
       <th>Código</th>
@@ -105,6 +108,7 @@
       </td>
 
       <td>
+        <i class="dot" [ngClass]="{'warning': prescription.status === 'AVAILABLE', 'success': prescription.status !== 'AVAILABLE'}"></i>
         <span>{{ getStatusLabel(prescription.status) }}</span>
       </td>
       <td>
@@ -114,3 +118,4 @@
     </tr>
   </ng-template>
 </p-table>
+</div>

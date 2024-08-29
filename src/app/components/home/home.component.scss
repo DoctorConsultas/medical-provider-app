@@ -29,6 +29,7 @@
 }
 
 .menu-item {
+  font-size: 13px;
   display: block;
   width: 100%;
   padding: 20px;
@@ -48,6 +49,9 @@
 }
 
 .menu-item.active {
+  height: auto;
+  max-height: 44px;
+  padding: 5px 0;
   background: white; /* Fondo azul oscuro cuando está activo */
   color: white; /* Color de texto en blanco cuando está activo */
 }
@@ -65,4 +69,16 @@
 .content {
   padding: 16px;
   flex-grow: 1;
+}
+
+
+
+mat-nav-list {
+  h5 {
+    text-align: center;
+    color: #2d323e !important;
+  }
+  &:last-child {
+    margin-top: calc(100vh - 30rem);
+  }
 }

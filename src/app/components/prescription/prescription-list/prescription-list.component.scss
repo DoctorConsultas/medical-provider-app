@@ -1,36 +1,88 @@
 .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-  
-  table {
-    width: 100%;
-    margin-bottom: 20px;
-    font-size: 13px;
-  }
-  
-  button {
-    margin-right: 8px;
-  }
-  
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+}
 
-  .flex-container {
-    display: flex;
-    justify-content: space-between;
-    gap: 16px; /* Adjust as needed */
-  }
-  
-  .flex-item {
+table {
+  width: 100%;
+  margin-bottom: 20px;
+  font-size: 13px;
+}
+
+button {
+  margin-right: 8px;
+}
+
+
+.flex-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  /* Adjust as needed */
+}
+
+.flex-item {
   //  flex: 1; /* This allows each item to grow and fill space equally */
-    max-width: 33%; /* This makes each item take up approximately 4 columns out of 12 */
-  }
-  
-  .card {
-    padding: 16px; /* Adjust padding as needed */
-  }
+  max-width: 33%;
+  /* This makes each item take up approximately 4 columns out of 12 */
+}
+
+.card {
+  padding: 16px;
+  /* Adjust padding as needed */
+}
 
 
-  span {
-    display: block;
+span {
+  display: block;
+}
+
+.content-table {
+  padding: 5px;
+  background-color: white;
+
+}
+
+.custom-table ::ng-deep {
+  padding: 20px 0px 20px 0px;
+  font-family: Hind, sans-serif;
+  thead { 
+    tr {
+      th {
+        background-color: white; /* Change this to your desired color */
+        font-weight: 600;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: #424242;
+        padding: 10px 5px;
+        font-family: Hind, sans-serif;
+      }
+    }
   }
+  tbody {
+    tr {
+      td {
+        font-family: Hind, sans-serif;
+        font-size: 13px;
+        font-weight: 400;
+        padding: 10px 0px 10px 0px;
+
+        i {
+          background-color: #ffc107;
+          width: 8px;
+          height: 8px;
+          display: inline-block;
+          border-radius: 50%;
+          margin-right: 3px;
+          &.success {
+            background-color: #18cc6c;
+          }
+        }
+        span {
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

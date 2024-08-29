@@ -9,13 +9,11 @@ import { AuthService } from '@auth0/auth0-angular';
 export class HomeComponent {
 
   constructor(public authService: AuthService) {
-    console.log("que onda wey 22");
 
   }
 
   logout(){
     this.authService.logout();
-    console.log("que onda wey!!");
   }
 
 }

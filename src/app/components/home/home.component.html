@@ -5,15 +5,17 @@
         <img src="assets/images/logos/logo.png" alt="Logo" class="logo">
       </mat-toolbar>
       <mat-nav-list *ngIf="authService.user$ | async as user">
-        <h5 style="color: red;">{{user.email}}</h5>
+        <h5>{{user.email}}</h5>
+      </mat-nav-list>
+      <mat-nav-list>
         <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Dashboard</a>
         <a mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Prescripciones</a>
         <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Médicos</a>
         <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Pacientes</a>
         <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Mi perfil</a>
-
-        <button mat-list-item routerLink="/" routerLinkActive="active" class="menu-item" (click)="logout()">Logout</button>
-
+      </mat-nav-list>
+      <mat-nav-list>
+        <a mat-list-item routerLink="/" routerLinkActive="active" class="menu-item logout-item" (click)="logout()">Logout</a>
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content class="custom-content">
