@@ -107,7 +107,7 @@
         <span>{{ prescription.Laboratorio }}</span>
       </td>
 
-      <td>
+      <td style="width: 6rem;">
         <i class="dot" [ngClass]="{'warning': prescription.status === 'AVAILABLE', 'success': prescription.status !== 'AVAILABLE'}"></i>
         <span>{{ getStatusLabel(prescription.status) }}</span>
       </td>
