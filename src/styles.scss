@@ -110,3 +110,16 @@ p-calendar span input {
 .mdc-list-item__primary-text {
   font-size: 13px !important;
 }
+
+.content-table {
+  border: 1px solid #e2e8f0;
+  border-radius: 5px;
+}
+
+label {
+  font-size: 10px;
+  color: #333;
+  font-weight: 500;
+  margin-left: 4px;
+  text-transform: uppercase;
+}
