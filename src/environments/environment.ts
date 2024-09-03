@@ -1,6 +1,6 @@
 export const environment = {
     production: false,
-    apiUrl: 'https://prestadores.recetalia.com/api',
+    apiUrl: 'http://localhost:8080/api',
     otherConfig: 'someOtherValue',
     auth0: {
         domain: 'dev-w3y7ykm3xm4ahdoa.us.auth0.com',

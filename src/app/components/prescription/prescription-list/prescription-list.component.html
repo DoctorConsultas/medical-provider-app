@@ -2,13 +2,13 @@
 
 <div class="row">
   <div class="col s2">
-      <label for="rangeDates">Date Range</label>
+      <label for="rangeDates">Rango de fecha</label>
       <p-calendar id="rangeDates" [(ngModel)]="rangeDates" dateFormat="yy-mm-dd" selectionMode="range" [showIcon]="true"
         [readonlyInput]="true" (onSelect)="onDateSelect()" />
     
   </div>
   <div class="col s4">
-    <label for="doctorSelect">Doctor</label>
+    <label for="doctorSelect">Médico</label>
     <p-dropdown id="doctorSelect" [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
       filterBy="name,lastname,cjp" [showClear]="true" placeholder="Médico" [style]="{ 'width': '100%', 'max-width': '100%' }"
       (onChange)="onDoctorSelect($event)">
@@ -34,7 +34,7 @@
     </p-dropdown>
   </div>
   <div class="col s4">
-    <label for="patientSelect">Patient</label>
+    <label for="patientSelect">Paciente</label>
     <p-dropdown id="patientSelect" [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
       filterBy="name,lastname,document" [showClear]="true" placeholder="Paciente" [style]="{ 'width': '100%', 'max-width': '100%' }"
       (onChange)="onPatienSelect($event)">
@@ -60,21 +60,19 @@
     </p-dropdown>
   </div>
   <div class="col s1">
-    <label for="statusSelect">Status</label>
+    <label for="statusSelect">Estado</label>
     <p-dropdown id="statusSelect" [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" [filter]="false"
       placeholder="Seleccione un Estado" styleClass="w-20rem" (onChange)="updateSelectedStatuses($event)">
     </p-dropdown>
   </div>
 </div>
 
-
-
 <div class="content-table">
 <p-table 
   [value]="prescriptions" 
   selectionMode="single" 
   [paginator]="true" 
-  [rows]="20" 
+  [rows]="10" 
   [totalRecords]="totalRecords" 
   [lazy]="true"
   (onLazyLoad)="loadPrescriptions($event)" 
@@ -119,6 +117,14 @@
         <span *ngIf="prescription.status !== 'AVAILABLE'">{{ prescription.updatedAt | dateTimeFormat:true }}</span>
       </td>
     </tr>
+  </ng-template>
+  <!-- Footer paginator template -->
+  <ng-template pTemplate="paginatorleft" let-paginator>
+    <div class="p-d-flex p-ai-center">
+      Mostrando {{paginator.first + 1}} - 
+      {{paginator.first + paginator.rows > totalRecords ? totalRecords : paginator.first + paginator.rows}} 
+      de {{totalRecords}} items
+    </div>
   </ng-template>
 </p-table>
 </div>

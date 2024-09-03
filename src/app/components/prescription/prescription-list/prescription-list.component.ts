@@ -127,6 +127,7 @@ export class PrescriptionListComponent implements OnInit {
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
           }));
+          console.log(data);
           this.totalRecords = data.totalElements;
           this.loading = false;
         }, error => {
