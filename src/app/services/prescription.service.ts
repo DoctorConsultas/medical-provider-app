@@ -87,4 +87,35 @@ export class PrescriptionService {
       
     return this.http.get<PrescriptionResponse[]>(`${this.apiUrl}/by-medic-and-date-range`, { params });
   }
+
+  downloadExcel(
+    medicalProviderId: string,
+    statuses: string[],
+    medicId?: string,
+    patientId?: string,
+    startDate?: string,
+    endDate?: string
+  ): Observable<Blob> {
+    let params = new HttpParams()
+      .set('medicalProviderId', medicalProviderId)
+      .set('statuses', statuses.join(','));
+
+    if (medicId) {
+      params = params.set('medicId', medicId);
+    }
+
+    if (patientId) {
+      params = params.set('patientId', patientId);
+    }
+
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate);
+      params = params.set('endDate', endDate);
+    }
+
+    return this.http.get(`${this.apiUrl}/download/excel`, {
+      params: params,
+      responseType: 'blob'
+    });
+  }
 }

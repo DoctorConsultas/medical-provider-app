@@ -298,4 +298,24 @@ export class PrescriptionListComponent implements OnInit {
     // this.rangeDates = [];
     this.loadPrescriptions({ first: 0, rows: 15 });
   }
+
+  downloadExcel(): void {
+    // Check if rangeDates is defined and has two dates
+    const startDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[0]) : undefined;
+    const endDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[1]) : undefined;
+  
+    this.prescriptionService
+      .downloadExcel(this.medicalProviderId, this.selectStatuses, this.medicId, this.patientId, startDate, endDate)
+      .subscribe((data) => {
+        const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'prescriptions.xlsx';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        window.URL.revokeObjectURL(url);
+      });
+  }
 }

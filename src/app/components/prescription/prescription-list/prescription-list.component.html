@@ -65,6 +65,11 @@
       placeholder="Seleccione un Estado" styleClass="w-20rem" (onChange)="updateSelectedStatuses($event)">
     </p-dropdown>
   </div>
+  <div class="col s1">
+    <button (click)="downloadExcel()" class="btn btn-primary">
+      Excel
+    </button>
+  </div>
 </div>
 
 <div class="content-table">
