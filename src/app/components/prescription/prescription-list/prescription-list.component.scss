@@ -4,6 +4,10 @@
   padding: 20px;
 }
 
+p-dropdown {
+  display: block;
+}
+
 table {
   width: 100%;
   margin-bottom: 20px;
@@ -12,6 +16,17 @@ table {
 
 button {
   margin-right: 8px;
+  border: none;
+  background-color: #f5f8fa;
+  cursor: pointer;
+  &:hover {
+    transform: scale(1.2);
+  }
+  i {
+    color: green;
+    font-size: 4rem !important;
+    background-color: none;
+  }
 }
 
 
@@ -82,4 +97,14 @@ span {
       }
     }
   }
+}
+
+.export-excel {
+  background: url("../../../../assets/images/icon/excel.png");
+  color: #000000;
+  cursor: pointer;
+  font-weight: bold;
+  height: 20px;
+  padding-bottom: 2px;
+  width: 75px;
 }

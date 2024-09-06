@@ -7,7 +7,7 @@
         [readonlyInput]="true" (onSelect)="onDateSelect()" />
     
   </div>
-  <div class="col s4">
+  <div class="col s3">
     <label for="doctorSelect">Médico</label>
     <p-dropdown id="doctorSelect" [options]="filteredMedics" [(ngModel)]="selectedDoctor" optionLabel="name" [filter]="true"
       filterBy="name,lastname,cjp" [showClear]="true" placeholder="Médico" [style]="{ 'width': '100%', 'max-width': '100%' }"
@@ -33,7 +33,7 @@
       </ng-template>
     </p-dropdown>
   </div>
-  <div class="col s4">
+  <div class="col s3">
     <label for="patientSelect">Paciente</label>
     <p-dropdown id="patientSelect" [options]="filteredPatients" [(ngModel)]="selectedPatient" optionLabel="name" [filter]="true"
       filterBy="name,lastname,document" [showClear]="true" placeholder="Paciente" [style]="{ 'width': '100%', 'max-width': '100%' }"
@@ -62,12 +62,12 @@
   <div class="col s1">
     <label for="statusSelect">Estado</label>
     <p-dropdown id="statusSelect" [options]="statuses" [(ngModel)]="selectedStatus" optionLabel="name" [filter]="false"
-      placeholder="Seleccione un Estado" styleClass="w-20rem" (onChange)="updateSelectedStatuses($event)">
+      placeholder="Seleccione un Estado" (onChange)="updateSelectedStatuses($event)">
     </p-dropdown>
   </div>
-  <div class="col s1">
-    <button (click)="downloadExcel()" class="btn btn-primary">
-      Excel
+  <div class="col s2">
+    <button (click)="downloadExcel()" class="">
+      <i class="pi pi-file-excel" style="font-size: 2rem"></i>
     </button>
   </div>
 </div>

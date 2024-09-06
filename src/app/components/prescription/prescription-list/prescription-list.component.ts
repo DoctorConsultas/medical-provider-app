@@ -1,11 +1,12 @@
 import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
-import { PrescriptionService } from '../../../services/prescription.service'; 
-import { PrescriptionResponse, Document } from '../../../models/prescription-response.model'; 
+import { PrescriptionService } from '../../../services/prescription.service';
+import { PrescriptionResponse, Document } from '../../../models/prescription-response.model';
 import { MedicService } from '../../../services/medic.service';
 import { MedicResponse } from '../../../models/medic-response.model';
 import { DropdownFilterOptions } from 'primeng/dropdown';
 import { PatientService } from '../../../services/patient.service';
 import { PatientResponse } from '../../../models/patient-response.model';
+import { AuthService } from '@auth0/auth0-angular';
 import { DateTimeFormatPipe } from '../../../pipe/date-time-format-pipe';
 
 @Component({
@@ -21,7 +22,7 @@ export class PrescriptionListComponent implements OnInit {
   filteredPatients: PatientResponse[] = [];
   totalRecords!: number;
   loading: boolean = true;
-  medicalProviderId: string = '39';
+  medicalProviderId: string = '';
   filterValueMedic: string | undefined = '';
   filterValuePatien: string | undefined = '';
   selectedDoctor!: MedicResponse;
@@ -78,12 +79,19 @@ export class PrescriptionListComponent implements OnInit {
     private medicService: MedicService,
     private patientService: PatientService,
     private zone: NgZone,
-    private cd: ChangeDetectorRef
-  ) {}
+    private cd: ChangeDetectorRef,
+    public authService: AuthService
+  ) { }
 
   ngOnInit(): void {
     this.searchMedics(this.medicalProviderId, ''); // Initial load
     this.getPatientsByMedicalProvider(this.medicalProviderId);
+
+    // Subscribe to the user observable to get the email
+    this.authService.user$.subscribe(user => {
+      this.medicalProviderId = user?.email ?? '';  // Fallback to an empty string if email is undefined
+      console.log('User email:', this.medicalProviderId);
+    });
   }
 
   searchMedics(medicalProviderId: string, searchCriteria: string): void {
@@ -106,7 +114,7 @@ export class PrescriptionListComponent implements OnInit {
         this.zone.run(() => {
           this.patients = [this.defaultPatient, ...data];
           this.filteredPatients = this.patients;
-         });
+        });
       },
       error => {
         console.error('Error fetching patients', error);
@@ -169,13 +177,13 @@ export class PrescriptionListComponent implements OnInit {
 
   updateSelectedStatuses(event: any): void {
     if (this.selectedStatus.key === 'ALL') {
-        this.selectStatuses = this.statuses.map(status => status.key).filter(key => key !== 'ALL');
+      this.selectStatuses = this.statuses.map(status => status.key).filter(key => key !== 'ALL');
     } else {
-        this.selectStatuses = [this.selectedStatus.key];
+      this.selectStatuses = [this.selectedStatus.key];
     }
     this.refreshTable();
   }
-  
+
   onDoctorSelect(event: any): void {
     const selectedDoctor = event.value;
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
@@ -303,7 +311,7 @@ export class PrescriptionListComponent implements OnInit {
     // Check if rangeDates is defined and has two dates
     const startDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[0]) : undefined;
     const endDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[1]) : undefined;
-  
+
     this.prescriptionService
       .downloadExcel(this.medicalProviderId, this.selectStatuses, this.medicId, this.patientId, startDate, endDate)
       .subscribe((data) => {
