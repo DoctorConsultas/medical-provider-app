@@ -94,7 +94,8 @@ export class PrescriptionService {
     medicId?: string,
     patientId?: string,
     startDate?: string,
-    endDate?: string
+    endDate?: string,
+    downloadBy?: string
   ): Observable<Blob> {
     let params = new HttpParams()
       .set('medicalProviderId', medicalProviderId)
@@ -112,6 +113,9 @@ export class PrescriptionService {
       params = params.set('startDate', startDate);
       params = params.set('endDate', endDate);
     }
+    if (downloadBy) {
+      params = params.set("downloadBy", downloadBy);
+    }    
 
     return this.http.get(`${this.apiUrl}/download/excel`, {
       params: params,

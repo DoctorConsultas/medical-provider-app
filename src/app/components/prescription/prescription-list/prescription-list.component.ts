@@ -30,6 +30,7 @@ export class PrescriptionListComponent implements OnInit {
   medicId: string = '';
   patientId: string = '';
   rangeDates: Date[] | undefined;
+  downloadBy: string = '';
   statuses: any[] = [
     { name: 'Estado', key: 'ALL' },
     { name: 'Disponible', key: 'AVAILABLE' },
@@ -131,6 +132,7 @@ export class PrescriptionListComponent implements OnInit {
     if (this.medicId && this.medicId !== 'all') {
       this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
+          this.downloadBy = "MEDIC";
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -145,6 +147,7 @@ export class PrescriptionListComponent implements OnInit {
     } else if (this.patientId && this.patientId !== 'all') {
       this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
+          this.downloadBy = "PATIENT";
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -162,6 +165,7 @@ export class PrescriptionListComponent implements OnInit {
     } else {
       this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, this.selectStatuses, page, size)
         .subscribe(data => {
+          this.downloadBy = "PROVIDER";
           this.prescriptions = data.content.map((prescription: any) => ({
             ...prescription,
             patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
@@ -266,6 +270,7 @@ export class PrescriptionListComponent implements OnInit {
     this.prescriptionService.getPrescriptionsByMedicalProviderAndDateRange(medicalProviderId, startDate, endDate, selectStatuses, page, size)
       .subscribe(
         data => {
+          this.downloadBy = "DATE_RANGE";
           this.prescriptions = data.content;
           this.totalRecords = data.totalElements;
           this.loading = false;
@@ -313,7 +318,7 @@ export class PrescriptionListComponent implements OnInit {
     const endDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[1]) : undefined;
 
     this.prescriptionService
-      .downloadExcel(this.medicalProviderId, this.selectStatuses, this.medicId, this.patientId, startDate, endDate)
+      .downloadExcel(this.medicalProviderId, this.selectStatuses, this.medicId, this.patientId, startDate, endDate, this.downloadBy)
       .subscribe((data) => {
         const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const url = window.URL.createObjectURL(blob);
