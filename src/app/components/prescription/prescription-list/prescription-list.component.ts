@@ -189,7 +189,7 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   onDoctorSelect(event: any): void {
-    const selectedDoctor = event.value;
+    const selectedDoctor = event.value != null ? event.value : 'all';
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
     this.selectedPatient = this.defaultPatient;
     this.filterValuePatien = '';
@@ -200,7 +200,7 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   onPatienSelect(event: any): void {
-    const selectedPatient = event.value;
+    const selectedPatient = event.value != null ? event.value : 'all';
     this.patientId = selectedPatient.id !== 'all' ? selectedPatient.id : '';
     this.selectedDoctor = this.defaultMedic;
     this.filterValueMedic = '';

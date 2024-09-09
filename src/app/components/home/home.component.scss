@@ -2,26 +2,22 @@
 
 .custom-sidenav-container {
   height: 100vh;
-  display: flex;
 }
 
-.custom-sidenav {
-  width: 200px;
-  background: white; /* Fondo azul */
-  display: flex;
-  flex-direction: column;
+.mat-drawer-container {
+  background-color: #f5f8fa;
 }
 
 .custom-toolbar {
   background: white; /* Fondo azul del toolbar en el sidenav */
-  display: flex;
-  justify-content: center;
+  display: block;
   align-items: center;
 }
 
 .logo {
   transform: scale(1.5);
   width: 100px; /* Ajusta el tamaño según tus necesidades */
+  margin-left: 15px;
 }
 
 .toolbar-message {
@@ -77,9 +73,72 @@
 mat-nav-list {
   h5 {
     text-align: center;
-    color: #2d323e !important;
   }
   &:last-child {
     margin-top: calc(100vh - 30rem);
   }
+}
+
+
+
+h1 {
+  padding: 0 1rem;
+}
+
+h2 {padding: 1rem;}
+
+mat-toolbar{
+  position:fixed;
+  top:0;
+  z-index: 2;
+  padding-top: 10px;
+}
+
+mat-sidenav-container {
+  height:100%;
+}
+
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav {
+  padding-top: 3.5rem;
+  @media screen and (min-width: 600px) {
+    padding-top: 4rem;
+  }
+
+  .entry{
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding:0.75rem;
+  }
+}
+
+// Move the content down so that it won't be hidden by the toolbar
+mat-sidenav-content{
+  padding-top: 3.5rem;
+  @media screen and (min-width: 600px) {
+      padding-top: 4rem;
+  }
+}
+
+.expanded {
+  width: 208px;   
+  background-color: white;
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  color: #2d323e;
 }
