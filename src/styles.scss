@@ -98,13 +98,32 @@ span, h2, h5 {
   color: #2d323e !important;
   font-family: Hind, sans-serif !important;
   &.p-calendar {
-    width: 100% ;
+    width: 100%;
+    border: 1px solid #2d323e;
+    border-radius: 28px;
+    height: 47px;
+
+    button {
+      background-color: transparent;
+      color: #2d323e;
+      border: none;
+    }
+    .p-inputtext {
+      border-bottom: none;
+      padding-left: 10px;
+    }
+    
   }
 }
-
-mat-sidenav-content {
-  border-color: red !important;
-} 
+p-dropdown {
+  .p-dropdown {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 20px;
+    background-color: transparent;
+    border-color: #2d323e;
+  }
+}
 
 p-calendar span input {
   width: 12rem !important;

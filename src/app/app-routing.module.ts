@@ -46,7 +46,7 @@ const routes: Routes = [
       { path: '', redirectTo: 'prescriptions', pathMatch: 'full' } // Redirect to prescriptions if no child route matches
     ]
   },
-  { path: 'login', component: LoginComponent },
+//  { path: 'login', component: LoginComponent },
   { path: '**', redirectTo: 'login' } // Redirect any unknown path to the login
 ];
 
