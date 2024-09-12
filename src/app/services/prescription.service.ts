@@ -77,28 +77,25 @@ export class PrescriptionService {
 
     return this.http.get<any>(`${this.apiUrl}/by-medical-provider-and-date-range`, { params });
   }
-  
+
   getPrescriptionsByMedicIdAndDateRange(medicId: string, startDate: string, endDate: string, statuses: string[]): Observable<PrescriptionResponse[]> {
     let params = new HttpParams()
       .set('medicId', medicId)
       .set('startDate', startDate)
       .set('endDate', endDate)
       .set('statuses', statuses.join(','));
-      
+
     return this.http.get<PrescriptionResponse[]>(`${this.apiUrl}/by-medic-and-date-range`, { params });
   }
 
   downloadExcel(
-    medicalProviderId: string,
     statuses: string[],
     medicId?: string,
     patientId?: string,
     startDate?: string,
     endDate?: string,
-    downloadBy?: string
   ): Observable<Blob> {
     let params = new HttpParams()
-      .set('medicalProviderId', medicalProviderId)
       .set('statuses', statuses.join(','));
 
     if (medicId) {
@@ -113,13 +110,45 @@ export class PrescriptionService {
       params = params.set('startDate', startDate);
       params = params.set('endDate', endDate);
     }
-    if (downloadBy) {
-      params = params.set("downloadBy", downloadBy);
-    }    
 
     return this.http.get(`${this.apiUrl}/download/excel`, {
       params: params,
       responseType: 'blob'
     });
+  }
+
+
+  getPrescriptionsByFilters(
+    statuses: string[],
+    medicId: string,
+    patientId: string,
+    startDate?: string,
+    endDate?: string,
+    page?: number,
+    size?: number
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('statuses', statuses.join(','))
+
+    if (page) {
+      params = params.set('page', page.toString());
+    }
+    if (size) {
+      params = params.set('size', size.toString());
+    }
+
+    if (medicId) {
+      params = params.set('medicId', medicId);
+    }
+
+    if (patientId) {
+      params = params.set('patientId', patientId);
+    }
+
+    if (startDate && endDate) {
+      params = params.set('startDate', startDate);
+      params = params.set('endDate', endDate);
+    }
+    return this.http.get<PrescriptionResponse[]>(`${this.apiUrl}/get-prescriptions-by-filters`, { params });
   }
 }

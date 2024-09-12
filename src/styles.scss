@@ -122,6 +122,14 @@ p-dropdown {
     border-radius: 20px;
     background-color: transparent;
     border-color: #2d323e;
+    .p-dropdown-clear-icon { 
+      background: #00b4b7;
+      /* font-size: 27px; */
+      height: 21px;
+      width: 21px;
+      border-radius: 52px;
+      top: 44%;
+    }
   }
 }
 

@@ -5,6 +5,9 @@
       <label for="rangeDates">Rango de fecha</label>
       <p-calendar id="rangeDates" [(ngModel)]="rangeDates" dateFormat="yy-mm-dd" selectionMode="range" [showIcon]="true"
         [readonlyInput]="true" (onSelect)="onDateSelect()" />
+      <div style="position: relative;" *ngIf="rangeDates && rangeDates.length === 2 && rangeDates[0] && rangeDates[1]">
+        <span class="reset-range-date" (click)="resetFunctionRangeDates()">X</span>
+      </div>
     
   </div>
   <div class="col s3">
@@ -18,6 +21,7 @@
             <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>
             <input type="text" pInputText placeholder="Filter" [(ngModel)]="filterValueMedic"
               (keyup)="customFilterMedic($event, options)" />
+              <span class="p-inputgroup-addon"><i class="pi pi-search"></i></span>  
           </div>
         </div>
       </ng-template>
@@ -86,6 +90,7 @@
   (onLazyLoad)="loadPrescriptions($event)" 
   [loading]="loading"
   [rowsPerPageOptions]="[5, 10, 25, 50]"
+  [first]="currentFirstRow"
   class="custom-table">
   <ng-template pTemplate="header">
     <tr>
@@ -129,8 +134,8 @@
   <!-- Footer paginator template -->
   <ng-template pTemplate="paginatorleft" let-paginator>
     <div class="p-d-flex p-ai-center">
-      Mostrando {{paginator.first + 1}} - 
-      {{paginator.first + paginator.rows > totalRecords ? totalRecords : paginator.first + paginator.rows}} 
+      Mostrando {{ 1 + pageable.offset }} - 
+      {{pageable.offset + numberOfElements}} 
       de {{totalRecords}} items
     </div>
   </ng-template>

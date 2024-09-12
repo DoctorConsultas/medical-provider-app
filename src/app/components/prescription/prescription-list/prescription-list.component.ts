@@ -15,6 +15,11 @@ import { DateTimeFormatPipe } from '../../../pipe/date-time-format-pipe';
   styleUrls: ['./prescription-list.component.scss']
 })
 export class PrescriptionListComponent implements OnInit {
+
+  page!: number;
+  size!: number;
+
+  currentFirstRow: number = 0;
   prescriptions: PrescriptionResponse[] = [];
   medics: MedicResponse[] = [];
   patients: PatientResponse[] = [];
@@ -31,6 +36,8 @@ export class PrescriptionListComponent implements OnInit {
   patientId: string = '';
   rangeDates: Date[] | undefined;
   downloadBy: string = '';
+  pageable: any;
+  numberOfElements!: number;
   statuses: any[] = [
     { name: 'Estado', key: 'ALL' },
     { name: 'Disponible', key: 'AVAILABLE' },
@@ -126,57 +133,39 @@ export class PrescriptionListComponent implements OnInit {
   loadPrescriptions(event: any): void {
     this.loading = true;
 
-    const page = event.first / event.rows;
-    const size = event.rows;
+    this.page = event.first / event.rows;
+    this.size = event.rows;
 
-    if (this.medicId && this.medicId !== 'all') {
-      this.prescriptionService.getPrescriptionsByMedicIdAndMedicalProviderId(this.medicId, this.medicalProviderId, this.selectStatuses, page, size)
-        .subscribe(data => {
-          this.downloadBy = "MEDIC";
-          this.prescriptions = data.content.map((prescription: any) => ({
-            ...prescription,
-            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
-          }));
-          console.log(data);
-          this.totalRecords = data.totalElements;
-          this.loading = false;
-        }, error => {
-          console.error('Error fetching prescriptions by doctor', error);
-          this.loading = false;
-        });
-    } else if (this.patientId && this.patientId !== 'all') {
-      this.prescriptionService.getPrescriptionsByPatientIdAndMedicalProviderId(this.patientId, this.medicalProviderId, this.selectStatuses, page, size)
-        .subscribe(data => {
-          this.downloadBy = "PATIENT";
-          this.prescriptions = data.content.map((prescription: any) => ({
-            ...prescription,
-            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
-          }));
-          this.totalRecords = data.totalElements;
-          this.loading = false;
-        }, error => {
-          console.error('Error fetching prescriptions by patient', error);
-          this.loading = false;
-        });
-    } else if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
-      const startDate = this.formatDate(this.rangeDates[0]);
-      const endDate = this.formatDate(this.rangeDates[1]);
-      this.fetchPrescriptionsByDateRange(this.medicalProviderId, startDate, endDate, this.selectStatuses, page, size);
-    } else {
-      this.prescriptionService.getPrescriptionsByMedicalProviderId(this.medicalProviderId, this.selectStatuses, page, size)
-        .subscribe(data => {
-          this.downloadBy = "PROVIDER";
-          this.prescriptions = data.content.map((prescription: any) => ({
-            ...prescription,
-            patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
-          }));
-          this.totalRecords = data.totalElements;
-          this.loading = false;
-        }, error => {
-          console.error('Error fetching prescriptions by medical provider', error);
-          this.loading = false;
-        });
+    console.log("this.page: " + this.page + "  --  " + "this.size: " + this.size );
+
+    // Check if rangeDates is defined and has two dates
+    const startDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[0]) : undefined;
+    const endDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[1]) : undefined;
+
+    var medicId = this.medicId
+    if(this.medicId == '' || this.medicId == 'all') {
+      medicId = '';
     }
+    var patientId = this.patientId
+    if(this.patientId == '' || this.patientId == 'all') {
+      patientId = '';
+    }
+ 
+    this.prescriptionService.getPrescriptionsByFilters(this.selectStatuses, medicId, patientId, startDate, endDate, this.page, this.size)
+      .subscribe(data => {
+        this.prescriptions = data.content.map((prescription: any) => ({
+          ...prescription,
+          patientDocument: prescription.patientDocument ? JSON.parse(prescription.patientDocument) : null,
+        }));
+        this.totalRecords = data.totalElements;
+        this.pageable = data.pageable;
+        this.numberOfElements = data.numberOfElements;
+        this.loading = false;
+      }, error => {
+        console.error('Error fetching prescriptions by patient', error);
+        this.loading = false;
+      });
+    
   }
 
   updateSelectedStatuses(event: any): void {
@@ -191,38 +180,53 @@ export class PrescriptionListComponent implements OnInit {
   onDoctorSelect(event: any): void {
     const selectedDoctor = event.value != null ? event.value : 'all';
     this.medicId = selectedDoctor.id !== 'all' ? selectedDoctor.id : '';
-    this.selectedPatient = this.defaultPatient;
-    this.filterValuePatien = '';
-    this.rangeDates = [];
+  //  this.selectedPatient = this.defaultPatient;
+  //  this.filterValuePatien = '';
+  //  this.rangeDates = [];
     this.prescriptions = [];
-    this.patientId = 'all';
-    this.loadPrescriptions({ first: 0, rows: 15 });
+  //  this.patientId = 'all';
+    this.currentFirstRow = 0;
+    this.loading = false;
+    this.loadPrescriptions({ first: 0, rows: this.size });
   }
 
   onPatienSelect(event: any): void {
     const selectedPatient = event.value != null ? event.value : 'all';
     this.patientId = selectedPatient.id !== 'all' ? selectedPatient.id : '';
-    this.selectedDoctor = this.defaultMedic;
-    this.filterValueMedic = '';
-    this.rangeDates = [];
+  //  this.selectedDoctor = this.defaultMedic;
+  //  this.filterValueMedic = '';
+  //  this.rangeDates = [];
     this.prescriptions = [];
-    this.medicId = 'all';
-    this.loadPrescriptions({ first: 0, rows: 15 });
+  //  this.medicId = 'all';
+    this.currentFirstRow = 0;
+    this.loading = false;
+    this.loadPrescriptions({ first: 0, rows: this.size });
   }
 
   onDateSelect() {
     if (this.rangeDates && this.rangeDates.length === 2 && this.rangeDates[0] && this.rangeDates[1]) {
       const startDate = this.formatDate(this.rangeDates[0]);
       const endDate = this.formatDate(this.rangeDates[1]);
-      this.medicId = 'all';
-      this.patientId = 'all';
-      this.selectedDoctor = this.defaultMedic;
-      this.selectedPatient = this.defaultPatient;
-      this.filterValueMedic = '';
-      this.filterValuePatien = '';
+    //  this.medicId = 'all';
+    //  this.patientId = 'all';
+    //  this.selectedDoctor = this.defaultMedic;
+    //  this.selectedPatient = this.defaultPatient;
+    //  this.filterValueMedic = '';
+    //  this.filterValuePatien = '';
       this.prescriptions = [];
-      this.loadPrescriptions({ first: 0, rows: 15 });
+        this.currentFirstRow = 0;
+        this.loading = false;
+      this.loadPrescriptions({ first: 0, rows: this.size });
     }
+  }
+
+  resetFunctionRangeDates() {
+    this.rangeDates = [];
+    this.prescriptions = [];
+  //  this.medicId = 'all';
+    this.currentFirstRow = 0;
+    this.loading = false;
+    this.loadPrescriptions({ first: 0, rows: this.size });
   }
 
   onFilterMedic(event: any): void {
@@ -235,11 +239,14 @@ export class PrescriptionListComponent implements OnInit {
     this.getPatientsByMedicalProvider(this.medicalProviderId);
   }
 
+  
   resetFunctionMedic(options: DropdownFilterOptions): void {
     if (options && options.reset) {
       options.reset();
       this.filterValueMedic = '';
     }
+    this.currentFirstRow = 0;
+    this.loading = false;
   }
 
   resetFunctionPatien(options: DropdownFilterOptions): void {
@@ -247,6 +254,8 @@ export class PrescriptionListComponent implements OnInit {
       options.reset();
       this.filterValuePatien = '';
     }
+    this.currentFirstRow = 0;
+    this.loading = false;
   }
 
   customFilterMedic(event: KeyboardEvent, options: DropdownFilterOptions): void {
@@ -301,15 +310,9 @@ export class PrescriptionListComponent implements OnInit {
   }
 
   refreshTable(): void {
-    // this.medicId = 'all';
-    // this.patientId = 'all';
-    // this.selectedDoctor = this.defaultMedic;
-    // this.selectedPatient = this.defaultPatient;
-    // this.filterValueMedic = '';
-    // this.filterValuePatien = '';
-    // this.prescriptions = [];
-    // this.rangeDates = [];
-    this.loadPrescriptions({ first: 0, rows: 15 });
+    this.currentFirstRow = 0;
+    this.loading = false;
+    this.loadPrescriptions({ first: 0, rows: this.size });
   }
 
   downloadExcel(): void {
@@ -317,8 +320,17 @@ export class PrescriptionListComponent implements OnInit {
     const startDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[0]) : undefined;
     const endDate = this.rangeDates && this.rangeDates.length === 2 ? this.formatDate(this.rangeDates[1]) : undefined;
 
+    var medicId = this.medicId
+    if(this.medicId == '' || this.medicId == 'all') {
+      medicId = '';
+    }
+    var patientId = this.patientId
+    if(this.patientId == '' || this.patientId == 'all') {
+      patientId = '';
+    }
+
     this.prescriptionService
-      .downloadExcel(this.medicalProviderId, this.selectStatuses, this.medicId, this.patientId, startDate, endDate, this.downloadBy)
+      .downloadExcel(this.selectStatuses, medicId, patientId, startDate, endDate)
       .subscribe((data) => {
         const blob = new Blob([data], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         const url = window.URL.createObjectURL(blob);

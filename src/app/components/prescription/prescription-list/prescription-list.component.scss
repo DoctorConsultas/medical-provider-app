@@ -55,6 +55,19 @@ button {
 
 span {
   display: block;
+    &.reset-range-date {
+      background-color: #00b4b7;
+    color: #6b7280 !important;
+    position: absolute;
+    right: 39px;
+    top: -33px;
+    font-size: 20px;
+    border-radius: 15px;
+    padding: 0px;
+    width: 21px;
+    height: 21px;
+    text-align: center;
+    }
 }
 
 .content-table {
