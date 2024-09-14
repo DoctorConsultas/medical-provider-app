@@ -229,6 +229,16 @@ export class PrescriptionListComponent implements OnInit {
     this.loadPrescriptions({ first: 0, rows: this.size });
   }
 
+  resetState() {
+    console.log(this.selectStatuses = this.statuses.map(status => status.key).filter(key => key !== 'ALL'));
+    this.selectedStatus = 'ALL'
+    this.selectStatuses = this.statuses.map(status => status.key).filter(key => key !== 'ALL');
+    this.prescriptions = [];
+    this.currentFirstRow = 0;
+    this.loading = false;
+    this.loadPrescriptions({ first: 0, rows: this.size });
+  }
+
   onFilterMedic(event: any): void {
     const searchCriteria = event.filter;
     this.searchMedics(this.medicalProviderId, searchCriteria);
