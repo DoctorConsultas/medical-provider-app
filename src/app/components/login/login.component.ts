@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,10 +17,8 @@ export class LoginComponent {
   @Input() error: string | null = null;
   @Output() submitEM = new EventEmitter();
 
-  private readonly hardcodedUsername = 'admin';
-  private readonly hardcodedPassword = 'password';
 
-  constructor(private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   get usernameControl() {
     return this.ngForm.get('username')!;
@@ -30,15 +29,13 @@ export class LoginComponent {
   }
 
   onSubmit(): void {
-    if (this.ngForm.invalid) {
-      this.ngForm.markAllAsTouched(); // Mark all fields as touched to trigger validation
-      return;
-    }
-
-    if (this.hardcodedPassword === this.passwordControl.value && this.hardcodedUsername === this.usernameControl.value) {
-      this.router.navigate(['/prescriptions']);
-    } else {
-      this.error = 'Error Credenciales!!!';
-    }
+    this.authService.login(this.ngForm.get('username')?.value, this.ngForm.get('password')?.value).subscribe(
+      (response) => {
+        this.router.navigate(['/prescriptions']);  // Redirect to home after successful login
+      },
+      (error) => {
+        console.error('Login failed', error);
+      }
+    );
   }
 }

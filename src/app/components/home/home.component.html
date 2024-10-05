@@ -15,8 +15,7 @@
 
 <mat-sidenav-container autosize class="custom-sidenav-container">
   <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'">
-    <mat-nav-list *ngIf="authService.user$ | async as user">
-      <h5>{{user.email}}</h5>
+    <mat-nav-list>
     </mat-nav-list>
     <mat-nav-list>
       <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Dashboard</a>

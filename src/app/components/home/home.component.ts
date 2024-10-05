@@ -2,7 +2,6 @@ import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
 
 import { Component, ViewChild } from '@angular/core';
-import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-home',
@@ -17,21 +16,14 @@ export class HomeComponent {
   isMobile= true;
   isCollapsed = true;
 
-  constructor(public authService: AuthService,
+  constructor(
     private observer: BreakpointObserver
   ) {
 
   }
 
   logout(){
-    this.authService.logout();
-    this.observer.observe(['(max-width: 800px)']).subscribe((screenSize: any) => {
-      if(screenSize.matches){
-        this.isMobile = true;
-      } else {
-        this.isMobile = false;
-      }
-    });
+    
   }
 
   toggleMenu() {

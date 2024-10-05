@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes, Router } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { HomeSummaryComponent } from './components/home/home-summary/home-summary.component';
 import { MedicComponent } from './components/medic/medic.component';
@@ -14,15 +14,20 @@ import { PrescriptionFormComponent } from './components/prescription/prescriptio
 import { MedicalProviderComponent } from './components/medical-provider/medical-provider.component';
 import { MedicalProviderFormComponent } from './components/medical-provider/medical-provider-form/medical-provider-form.component';
 import { LoginComponent } from './components/login/login.component';
-import { AuthGuard, AuthService } from '@auth0/auth0-angular';
+import { AuthGuard } from './guards/auth.guard';
 
 const routes: Routes = [
   {
     path: '', 
-    component: HomeComponent, 
-    canActivate: [AuthGuard], // Ensure user is authenticated
+    redirectTo: 'home', // Redirect to home as default route
+    pathMatch: 'full'
+  },
+  {
+    path: '', 
+    component: HomeComponent,
+    canActivate: [AuthGuard], // Protect home route
     children: [
-      { path: 'home', component: HomeSummaryComponent },
+      { path: '', component: HomeSummaryComponent }, // Default child route
       { path: 'medical-providers', component: MedicalProviderComponent, children: [
         { path: '', component: MedicalProviderComponent },
         { path: 'new', component: MedicalProviderFormComponent },
@@ -43,10 +48,9 @@ const routes: Routes = [
         { path: 'new', component: PrescriptionFormComponent },
         { path: 'edit/:id', component: PrescriptionFormComponent }
       ]},
-      { path: '', redirectTo: 'prescriptions', pathMatch: 'full' } // Redirect to prescriptions if no child route matches
     ]
   },
-//  { path: 'login', component: LoginComponent },
+  { path: 'login', component: LoginComponent }, // Public login route
   { path: '**', redirectTo: 'login' } // Redirect any unknown path to the login
 ];
 

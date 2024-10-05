@@ -1,41 +1,58 @@
 import { Injectable } from '@angular/core';
-import { AuthService as Auth0Service } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
-import { map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { AuthResponse } from '../models/Auth-response';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(private auth: Auth0Service, private router: Router) {}
+  private apiUrl = 'http://localhost:8081/api/auth/loginBack';
+  private tokenSubject = new BehaviorSubject<string | null>(this.getToken());
+  public token$ = this.tokenSubject.asObservable();
 
-  login() {
-    this.auth.loginWithRedirect();
+  constructor(private http: HttpClient, private router: Router) {}
+
+  login(email: string, password: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl, { email, password, info: 'test' }).pipe(
+      tap((response: AuthResponse )=> {
+        this.setToken(response.token);
+        this.setRole(response.role);
+      })
+    );
   }
 
-  handleAuthCallback() {
-    this.auth.loginWithRedirect({
-      appState: {
-        target: "/prescriptions",
-      },
-      authorizationParams: {
-        prompt: "login",
-      },
-    });
+  logout(): void {
+    this.clearToken();
+    this.router.navigate(['/login']);
   }
 
-  logout() {
-    this.auth.logout({
-      // Use type assertion to bypass type checking
-      returnTo: window.location.origin as unknown as string
-    } as any);
+  getToken(): string | null {
+    return localStorage.getItem('token');
   }
 
-  // Method to get the token
-  getToken(): Observable<string | null> {
-    return this.auth.idTokenClaims$.pipe(
-      map(claims => claims?.__raw ?? null)
-  );
-}
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+    this.tokenSubject.next(token);
+  }
+
+  setRole(role: string): void {
+    localStorage.setItem('role', role);
+  }
+
+  clearToken(): void {
+    localStorage.removeItem('token');
+    localStorage.removeItem('role');
+    this.tokenSubject.next(null);
+  }
+
+  isAuthenticated(): boolean {
+    return !!this.getToken();
+  }
 }

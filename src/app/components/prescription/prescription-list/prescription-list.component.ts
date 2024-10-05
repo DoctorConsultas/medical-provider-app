@@ -6,7 +6,6 @@ import { MedicResponse } from '../../../models/medic-response.model';
 import { DropdownFilterOptions } from 'primeng/dropdown';
 import { PatientService } from '../../../services/patient.service';
 import { PatientResponse } from '../../../models/patient-response.model';
-import { AuthService } from '@auth0/auth0-angular';
 import { DateTimeFormatPipe } from '../../../pipe/date-time-format-pipe';
 
 @Component({
@@ -87,8 +86,7 @@ export class PrescriptionListComponent implements OnInit {
     private medicService: MedicService,
     private patientService: PatientService,
     private zone: NgZone,
-    private cd: ChangeDetectorRef,
-    public authService: AuthService
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -96,10 +94,7 @@ export class PrescriptionListComponent implements OnInit {
     this.getPatientsByMedicalProvider(this.medicalProviderId);
 
     // Subscribe to the user observable to get the email
-    this.authService.user$.subscribe(user => {
-      this.medicalProviderId = user?.email ?? '';  // Fallback to an empty string if email is undefined
-      console.log('User email:', this.medicalProviderId);
-    });
+ 
   }
 
   searchMedics(medicalProviderId: string, searchCriteria: string): void {

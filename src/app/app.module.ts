@@ -29,12 +29,11 @@ import { MedicalProviderFormComponent } from './components/medical-provider/medi
 import { MedicalProviderListComponent } from './components/medical-provider/medical-provider-list/medical-provider-list.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { DropdownModule } from 'primeng/dropdown';
-import {MatCardModule} from '@angular/material/card';
+import { MatCardModule } from '@angular/material/card';
 import { CalendarModule } from 'primeng/calendar';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { DateTimeFormatPipe } from './pipe/date-time-format-pipe';
 import { LoginComponent } from './components/login/login.component';
-import { AuthModule } from '@auth0/auth0-angular';
 import { environment as env } from '../environments/environment';
 import { DocumentNumberPipe } from './pipe/document-number.pipe';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
@@ -80,10 +79,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatCardModule,
     CalendarModule,
     MatGridListModule,
-    CheckboxModule,
-    AuthModule.forRoot({
-      ...env.auth0,
-    })
+    CheckboxModule
   ],
   providers: [
     provideClientHydration(),
