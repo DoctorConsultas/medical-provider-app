@@ -9,14 +9,14 @@ import { AuthResponse } from '../models/Auth-response';
 })
 export class AuthService {
 
-  private apiUrl = 'http://localhost:8081/api/auth/loginBack';
+  private apiUrl = 'http://localhost:8081/api/auth/login';
   private tokenSubject = new BehaviorSubject<string | null>(this.getToken());
   public token$ = this.tokenSubject.asObservable();
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  login(email: string, password: string): Observable<any> {
-    return this.http.post<any>(this.apiUrl, { email, password, info: 'test' }).pipe(
+  login(email: string, password: string, info: string): Observable<any> {
+    return this.http.post<any>(this.apiUrl, { email, password, info}).pipe(
       tap((response: AuthResponse )=> {
         this.setToken(response.token);
         this.setRole(response.role);
