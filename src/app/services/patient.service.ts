@@ -35,6 +35,6 @@ export class PatientService {
   }
 
   getPatiensByMedicalProvider(idProvider: string): Observable<PatientResponse[]> {
-    return this.http.get<PatientResponse[]>(`${this.apiUrl}?medicalProviderId=${idProvider}`);
+    return this.http.get<PatientResponse[]>(`${this.apiUrl}/by-provider?medicalProviderId=${idProvider}`);
   }
 }
