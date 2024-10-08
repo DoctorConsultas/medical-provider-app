@@ -16,6 +16,7 @@
 <mat-sidenav-container autosize class="custom-sidenav-container">
   <mat-sidenav [ngClass]="!isCollapsed ? 'expanded' : ''" [mode]="isMobile ? 'over' : 'side'" [opened]="isMobile ? 'false' : 'true'">
     <mat-nav-list>
+      <p style="text-align: center;">{{ userEmail }}</p> <!-- Display the user's email -->
     </mat-nav-list>
     <mat-nav-list>
       <a disabled="true" mat-list-item routerLink="/prescriptions" routerLinkActive="active" class="menu-item">Dashboard</a>

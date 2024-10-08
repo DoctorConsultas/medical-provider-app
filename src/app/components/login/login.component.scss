@@ -29,10 +29,54 @@ mat-card-content {
 .button {
     display: flex;
     justify-content: flex-end;
+
+    &.login {
+        display: flex;
+        justify-content: center;
+        background-color: #12bcec;
+        border-radius: 25%;
+        height: auto;
+
+
+    }
 }
+
+.center {
+    text-align: -webkit-center;
+    .button {
+        
+        
+
+        &.login {
+            background-color: #12bcec;
+            border-radius: 16px;
+            height: auto;
+            justify-content: center;
+            width: fit-content;
+
+            &:hover{
+                background-color: #35b2cd;
+            }
+
+            button {
+                height: auto;
+                position: relative;
+                color: white !important;
+                font-weight: bold;
+                font-size: 1rem;   
+                
+            }
+            
+        }
+    }
+
+    
+}
+
 
 .mat-mdc-card {
     background-color: white;
+
     input {
         width: 300px !important;
     }
@@ -42,6 +86,7 @@ mat-card-content {
 
 mat-card-title {
     text-align: center;
+
     h3 {
         font-size: 12xp;
         font-weight: bold;

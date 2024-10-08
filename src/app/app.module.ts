@@ -37,6 +37,9 @@ import { LoginComponent } from './components/login/login.component';
 import { environment as env } from '../environments/environment';
 import { DocumentNumberPipe } from './pipe/document-number.pipe';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -79,9 +82,13 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatCardModule,
     CalendarModule,
     MatGridListModule,
-    CheckboxModule
+    CheckboxModule,
+    MatFormFieldModule, 
+    MatInputModule, 
+    MatIconModule
   ],
   providers: [
+    {provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: {appearance: 'outline'}},
     provideClientHydration(),
     provideHttpClient(withFetch()), // Provide HttpClient with fetch
     provideClientHydration(),

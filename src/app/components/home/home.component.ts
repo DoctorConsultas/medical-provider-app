@@ -1,7 +1,8 @@
 import { BreakpointObserver } from '@angular/cdk/layout';
 import { MatSidenav } from '@angular/material/sidenav';
-
+import { Router } from '@angular/router';
 import { Component, ViewChild } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -15,15 +16,24 @@ export class HomeComponent {
   sidenav!: MatSidenav;
   isMobile= true;
   isCollapsed = true;
+  userEmail: string | null = null; // Variable to hold the user's email
 
   constructor(
-    private observer: BreakpointObserver
+    private observer: BreakpointObserver,
+    private router: Router,
+    private authService: AuthService // Inject AuthService
   ) {
 
   }
 
+  ngOnInit() {
+    this.userEmail = this.authService.getEmailFromToken(); // Get email on component init
+  }
+
   logout(){
-    
+    localStorage.removeItem("token");
+    localStorage.removeItem("role");
+    this.router.navigate(['/login']);
   }
 
   toggleMenu() {

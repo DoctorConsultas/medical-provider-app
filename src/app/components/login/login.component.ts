@@ -1,13 +1,20 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 import { Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import * as CryptoJS from 'crypto-js';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatIconModule} from '@angular/material/icon';
+import {MatInputModule} from '@angular/material/input';
+import {MessagesModule} from 'primeng/messages';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import { HttpErrorResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LoginComponent {
   ngForm: FormGroup = new FormGroup({
@@ -19,7 +26,9 @@ export class LoginComponent {
   @Output() submitEM = new EventEmitter();
 
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, 
+    private router: Router,
+    private _snackBar: MatSnackBar) { }
 
   get usernameControl() {
     return this.ngForm.get('username')!;
@@ -36,9 +45,25 @@ export class LoginComponent {
     // Call the login service with the encrypted password and dynamicInfo
     this.authService.login(this.ngForm.get('username')?.value, encryptedPassword, dynamicInfo).subscribe(
       (response) => {
+        console.log(response)
         this.router.navigate(['/prescriptions']);  // Redirect to home after successful login
       },
-      (error) => {
+      (error: HttpErrorResponse) => {
+        console.log(error);
+        let errorMessage = 'An error occurred. Please contact technical support.';
+  
+        // Check the error response and set the message accordingly
+        if (error.error && typeof error.error.message === 'string') {
+          if (error.error.message.includes('User not found')) {
+            errorMessage = 'The username is incorrect. Please try again.';
+          } else if (error.error.message.includes('Credencial')) {
+            errorMessage = 'The password is incorrect. Please try again.';
+          } else {
+            errorMessage = "Hay un error, por favor contacte con el área técnica"; // Use the error message from the server
+          }
+        }
+  {}
+        this.openSnackBar(errorMessage, 'error');
         console.error('Login failed', error);
       }
     );
@@ -77,4 +102,11 @@ export class LoginComponent {
 
     return encrypted;
   }
+
+  openSnackBar(message: string, type: string) { 
+    this._snackBar.open(message, 'X', {
+      duration: 3000
+    });
+  }
+
 }

@@ -1,7 +1,7 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css");
 
 /* You can add global styles to this file, and also import other style files */
-// @import '~@angular/material/prebuilt-themes/indigo-pink.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import 'styles/variables';
 
 .login-page {
@@ -95,7 +95,7 @@
 
 
 span, h2, h5 {
-  color: #2d323e !important;
+  // color: #2d323e !important;
   font-family: Hind, sans-serif !important;
   &.p-calendar {
     width: 100%;
@@ -153,4 +153,38 @@ label {
   margin-left: 4px;
   text-transform: uppercase;
   display: block;
+}
+
+.mat-mdc-form-field-infix {
+  width: 100% !important;
+}
+
+.mdc-floating-label {
+  color: black !important;
+}
+
+.mat-mdc-form-field-bottom-align::before { 
+  display: none !important;
+}
+
+
+.mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-text-field__input { 
+  margin-bottom: 0px !important;
+  padding-bottom: 0px;
+}
+
+
+.mdc-text-field--outlined .mat-mdc-form-field-infix, .mdc-text-field--no-label .mat-mdc-form-field-infix {
+  padding: 0px !important;
+}
+
+
+.mdc-text-field--outlined.mdc-text-field--invalid:not(.mdc-text-field--disabled) .mdc-text-field__input { 
+  border-bottom: 0px !important;
+  box-shadow: none !important;
+}
+
+.mdc-text-field--outlined .mdc-text-field__input { 
+  border-bottom: 0px !important;
+  box-shadow: none !important;
 }

@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, map, Observable, tap } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { AuthResponse } from '../models/Auth-response';
+import { jwtDecode } from "jwt-decode";
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,14 @@ export class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  getEmailFromToken(): string | null {
+    const token = this.getToken();
+    if (token) {
+      const decodedToken: any = jwtDecode(token); // Use the named import here
+      return decodedToken.mail; // Extract the email from the token
+    }
+    return null;
   }
 }
